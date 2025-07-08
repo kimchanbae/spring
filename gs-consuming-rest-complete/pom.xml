@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.0</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>consuming-rest-complete</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>consuming-rest-complete</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>consuming-rest-initial</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+		    <groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-classic</artifactId>
+		    <version>${logback.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- Frontend Maven 플러그인 -->
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.9.1</version>
+				<configuration>
+					<workingDirectory>src/main/frontend</workingDirectory> <!-- 프론트엔드 작업 디렉토리 -->
+					<installDirectory>src/main/target</installDirectory> <!-- 설치 디렉토리 -->
+				</configuration>
+				<!-- 플러그인 실행 설정 -->
+				<executions>
+					<execution>
+						<id>install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<configuration>
+							<nodeVersion>v20.11.1</nodeVersion> <!-- Node.js 버전 -->
+							<npmVersion>10.2.4</npmVersion> <!-- npm 버전 -->
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments> <!-- npm install 실행 -->
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm run build</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments> <!-- npm run build 실행 -->
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Maven AntRun 플러그인 -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase> <!-- generate-resources 단계에서 실행 -->
+						<configuration>
+							<target>
+								<!-- 타겟 설정 -->
+								<mkdir dir="${project.build.directory}/classes/public" /> <!-- 디렉토리 생성 -->
+								<copy todir="${project.build.directory}/classes/public"> <!-- 디렉토리 복사 -->
+									<fileset dir="${project.basedir}/src/main/frontend/build" /> <!-- 프론트엔드 빌드 디렉토리 -->
+								</copy>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal> <!-- run 목표 수행 -->
+						</goals>
+					</execution>
+				</executions>
+			</plugin>		
+		</plugins>
+	</build>
+
+</project>

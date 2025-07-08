@@ -1,0 +1,9 @@
+com\example\consumingrest\GreetingController.class
+com\example\consumingrest\HelloController.class
+com\example\consumingrest\ConsumingRestApplication.class
+com\example\consumingrest\Quote.class
+com\example\consumingrest\WebConfig.class
+com\example\consumingrest\Value.class
+com\example\consumingrest\api\controller\SampleController.class
+com\example\consumingrest\Greeting.class
+com\example\consumingrest\WebConfig$1.class

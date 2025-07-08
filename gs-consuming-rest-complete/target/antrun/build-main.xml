@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <mkdir dir="C:\spring-tools-for-eclipse-4.31.0.RELEASE-e4.36.0-win32.win32.x86_64\sts-4.31.0.RELEASE\workspace\gs-consuming-rest-complete\target/classes/public" />
+    <copy todir="C:\spring-tools-for-eclipse-4.31.0.RELEASE-e4.36.0-win32.win32.x86_64\sts-4.31.0.RELEASE\workspace\gs-consuming-rest-complete\target/classes/public">
+      <fileset dir="C:\spring-tools-for-eclipse-4.31.0.RELEASE-e4.36.0-win32.win32.x86_64\sts-4.31.0.RELEASE\workspace\gs-consuming-rest-complete/src/main/frontend/build" />
+    </copy>
+  </target>
+</project>
