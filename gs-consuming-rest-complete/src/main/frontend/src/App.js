@@ -32,7 +32,7 @@ function App() {
 	
 	return (
     /*<div className="App">
-		백엔드에서 받은 데이터: {hello}
+		백엔드에서 받은 데이터: {hellohtt
 		{error && <p>Error: {error}</p>}
     </div>*/
 	
