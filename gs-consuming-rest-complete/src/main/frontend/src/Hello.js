@@ -29,7 +29,7 @@ function Sample(){
 		.then(res => {
 			/*console.log("res:" + console.log(JSON.stringify(res)));*/
 			setData(res.data);
-		});
+		});  
   	},[])  
 	
 	return (
