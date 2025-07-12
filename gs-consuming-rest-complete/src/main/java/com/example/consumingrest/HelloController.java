@@ -16,18 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@RequestMapping("/")
 public class HelloController {
 
 	private static final Logger log = LoggerFactory.getLogger(HelloController.class);
 	
-	@GetMapping("/")
+	@GetMapping
 	public String main() {
+		log.debug("=========react main 시작===========");
+		
 		return "안녕하세요 hello 백엔드입니다.";
 	}
 	
 	@ResponseBody
-	@RequestMapping("hello")
-//	public List<String> hello() {
+	@GetMapping("/hello")
 	public List hello() {
 		List<Map<String, Object>> contList = new ArrayList<>();
 		
@@ -44,8 +46,6 @@ public class HelloController {
 		log.debug("contList:" + contList);
 		
 		return contList;
-		
-//		return Arrays.asList("첫번째", "두번째");
 	}
 	
 }

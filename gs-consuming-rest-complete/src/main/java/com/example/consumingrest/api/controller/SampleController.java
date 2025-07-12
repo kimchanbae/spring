@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/sample")
 public class SampleController {
 
 	private static final Logger log = LoggerFactory.getLogger(SampleController.class);
 	
-	@RequestMapping("sample")
+	
+	@ResponseBody
+	@GetMapping
 	public List<String> sample() {
 		return Arrays.asList("1111", "22222", "sampleTest~~~");
 	}

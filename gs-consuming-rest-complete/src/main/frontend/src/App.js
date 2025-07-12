@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Hello from './Hello';
 import Sample from './Sample';
-import User from './User';
+import User from '/src/api/User';
 
 function App() {
 	/*const [hello, setHello] = useState('');
@@ -37,14 +37,14 @@ function App() {
     </div>*/
 	
 	<div>
-      	<BrowserRouter>
-          	<Routes>
-		  		<Route path="/" element={<Hello />} />
-				<Route path="/hello" element={<Hello />} />  
-            	<Route path="/sample" element={<Sample />}/>
-        	</Routes>
-      	</BrowserRouter>
-	</div>
+		<BrowserRouter>
+	      	<Routes>
+				<Route path="/" element={<Hello />} />
+				<Route path="/sample" element={<Sample />} /> 
+				<Route path="/user" element={<User />} />  
+	    	</Routes>
+		</BrowserRouter>
+	</div> 
   );
 }
 

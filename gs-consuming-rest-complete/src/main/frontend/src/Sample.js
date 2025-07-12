@@ -1,6 +1,6 @@
-import logo from './logo.svg';
+/*import logo from './logo.svg';*/
+import React, {useEffect, useState} from "react";
 import './App.css'
-import {useEffect, useState} from "react";
 import axios from "axios";
 
 function Sample(){
@@ -16,19 +16,31 @@ function Sample(){
 		.then(res => setData(res.data))
 		.then(function (result){console.log(result)})*/
 		
-		fetch("/sample")
-		.then((res) => {
-         	return res.json();
+		/*fetch("/sample")*/
+		axios.get("http://localhost:9000/api/sample")
+		.then(res => {
+			return res.data;
        	})
-       	.then(function (result) {
+       	.then(result => {
+			/*console.log(JSON.stringify(result));*/
            	setData(result);
-			console.log(JSON.stringify(result));
-     	})		
+     	})
+		
+		/*fetch("/api/sample")*/
+		/*axios.get("http://localhost:9000/api/sample")
+		.then(response => {
+			console.log(JSON.stringify(response));
+			setData(response.data);
+       	})
+		.catch(error => {
+			console.error("오류:", error);
+		})*/		
   	},[])  
 	
 	return (
   		<ul>
-      		{data.map((v,idx)=><li key={`${idx}-${v}`}>{v}</li>)}
+      		sample 이동 화면
+			<li>{data}</li>
   		</ul>
   	);
 }
