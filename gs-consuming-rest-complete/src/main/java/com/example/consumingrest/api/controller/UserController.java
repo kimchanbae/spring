@@ -42,7 +42,7 @@ public class UserController {
 	public List apiUser() {
 		List<Map<String, Object>> list = new ArrayList<>();
 		
-		log.debug("list:" + list);
+		log.debug("list:" + list); 
 		
 		return list;
 	}
