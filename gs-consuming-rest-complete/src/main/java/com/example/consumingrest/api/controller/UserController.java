@@ -31,7 +31,7 @@ public class UserController {
 	@ResponseBody
 	@GetMapping
 	public List user() {
-		log.debug("=============get 사용자 정보 조회============");
+		log.debug("=============get 사용자 정보 조회============"); 
 		
 		List<Map<String, Object>> list = userService.selectList();
 		
