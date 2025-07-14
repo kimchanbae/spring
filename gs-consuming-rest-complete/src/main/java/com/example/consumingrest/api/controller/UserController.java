@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class UserController {
 	public List user() {
 		log.debug("=============get 사용자 정보 조회============"); 
 		
-		List<Map<String, Object>> list = userService.selectList();
+		List<Map<String, Object>> list = userService.selectList(); 
 		
 		return list;
 	}
