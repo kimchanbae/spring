@@ -41,7 +41,7 @@ function Hello(){
   	},[])  
 	
 	return (
-		<div className="App">
+		<div className="App div-item">
 	      <header className="App-header">
 	        <p>
 	          Edit <code>src/App.js</code> and save to reload. 
@@ -58,7 +58,7 @@ function Hello(){
 	          className="App-link"
 	          href="/sample"
 	        >
-	          api sample 이동
+	          sample 이동
 	        </a>
 			<a
 	          className="App-link"
@@ -66,9 +66,15 @@ function Hello(){
 	        >
 	          사용자정보 이동
 	        </a>
-			<ul>
-				{data.map((v,idx) => <li key={idx}>{v.content}</li>)}
-	      	</ul>
+			<a
+	          className="App-link"
+	          href="/video"
+	        >
+	          영화정보 이동
+	        </a>
+			<ul className="main">
+  				{data.map((v,idx) =>  <li key={idx}>{v.content}</li> )}
+  			</ul>
 	      </header>
 	    </div>
   	);

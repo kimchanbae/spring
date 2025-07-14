@@ -3,6 +3,10 @@
 	height:6px;
 }
 .div-item li {
-	margin-right:20px;
+	margin-right:5px;
 	float:left;
 }
+
+ul li {width:250px;}
+
+.main li {width:400px;}
