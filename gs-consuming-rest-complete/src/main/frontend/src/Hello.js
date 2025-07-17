@@ -1,6 +1,5 @@
 /*import logo from './logo.svg';*/ 
 import React, {useEffect, useState} from "react";
-import './App.css'
 import axios from "axios"; 
 
 function Hello(){
@@ -13,10 +12,6 @@ function Hello(){
 	/*const [data, setData] = useState('');*/
 			
 	useEffect(() => {
-		/*axios.get('/hello')
-		.then(res => setData(res.data))
-		.then((result) => {console.log(result);})*/
-		
 		/*fetch("/http://localhost:3000/")
 		.then((res) => {
 			alert("res:" + res.data);
@@ -25,12 +20,6 @@ function Hello(){
        	.then((result) => {
 			setData(result);
 			console.log(JSON.stringify(result));
-		})*/
-		
-		/*axios.get("http://localhost:9000/api/hello")
-		.then(res => {
-			console.log("res:" + console.log(JSON.stringify(res.data)));
-			setData(res.data);
 		})*/
 		
 		axios.get("http://localhost:9000/hello")
@@ -43,35 +32,10 @@ function Hello(){
 	return (
 		<div className="App div-item">
 	      <header className="App-header">
-	        <p>
-	          Edit <code>src/App.js</code> and save to reload. 
-	        </p>
-	        <a
-	          className="App-link"
-	          href="https://reactjs.org"
-	          target="_blank"
-	          rel="noopener noreferrer"
-	        >
-	          Learn React
-	        </a>
-			<a
-	          className="App-link"
-	          href="/sample"
-	        >
-	          sample 이동
-	        </a>
-			<a
-	          className="App-link"
-	          href="/user"
-	        >
-	          사용자정보 이동
-	        </a>
-			<a
-	          className="App-link"
-	          href="/video"
-	        >
-	          영화정보 이동
-	        </a>
+		  	<a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
+			<a className="App-link" href="/sample">sample</a>
+			<a className="App-link" href="/user">사용자정보</a>
+			<a className="App-link" href="/video">영화정보</a>
 			<ul className="main">
   				{data.map((v,idx) =>  <li key={idx}>{v.content}</li> )}
   			</ul>

@@ -19,4 +19,16 @@ public class UserService {
 		return userMapper.selectList();
 	}
 	
+	public Map<String, Object> selectOne(Map paramMap) {
+		return userMapper.selectOne(paramMap);
+	}
+	
+	public void save(Map paramMap) {
+		if(paramMap.get("mode").equals("create")) {
+			userMapper.insert(paramMap);
+		}else {
+			userMapper.update(paramMap);
+		}
+	}
+	
 }

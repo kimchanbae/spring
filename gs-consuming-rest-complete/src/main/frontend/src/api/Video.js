@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from "react";
-import '/src/App.css'
-import '/css/Custorom.css'
 import axios from "axios";
 
 function User(){
@@ -19,16 +17,18 @@ function User(){
   	},[])  
 	
 	return (
-		<div className="App div-item">
-	      <header className="App-header">
-		  	<ul><li>제목</li><li>내용</li></ul>
-			{data.map((v) => 
-				<ul>
-				<li>{v.title}</li>
-				<li>{v.content}</li>
-				</ul>
-			)}
-	      </header>
+		<div className="App">
+	      	<header className="App-header">
+		  		<div className="div-item">	
+			  		<ul><li>제목</li><li>내용</li></ul>
+					{data.map((v) => 
+						<ul>
+						<li>{v.title}</li>
+						<li>{v.content}</li>
+						</ul>
+					)}
+				</div>
+	      	</header>
 	    </div>
   	);
 }

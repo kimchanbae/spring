@@ -1,8 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import '/src/App.css'
+import '/css/Custorom.css';
+import TopContent from '/src/TopContent';
 import Hello from './Hello';
 import Sample from './Sample';
 import User from '/src/api/User';
+import UserView from '/src/api/UserView';
 import Video from '/src/api/Video';
 
 function App() {
@@ -38,11 +42,13 @@ function App() {
     </div>*/
 	
 	<div>
+		<TopContent />
 		<BrowserRouter>
 	      	<Routes>
 				<Route path="/" element={<Hello />} />
 				<Route path="/sample" element={<Sample />} /> 
 				<Route path="/user" element={<User />} />
+				<Route path="/user/view" element={<UserView />} />
 				<Route path="/video" element={<Video />} />  
 	    	</Routes>
 		</BrowserRouter>

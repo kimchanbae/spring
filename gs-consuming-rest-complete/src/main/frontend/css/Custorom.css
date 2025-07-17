@@ -1,12 +1,26 @@
 .div-item ul {
 	list-style:none;
 	height:6px;
+	text-align:center;
+	margin-bottom:0.2cm;
 }
 .div-item li {
-	margin-right:5px;
+	margin-right:0.2cm;
 	float:left;
+	width:200px;
 }
-
-ul li {width:250px;}
+.div-item button{cursor:pointer;}
 
 .main li {width:400px;}
+
+.top-div{text-align:left;}
+.top-ul{text-align:left; margin-bottom:0.8cm; list-style:none;}
+
+.det-div ul{text-align:center; margin-bottom:0.4cm; list-style:none; display:table-row;}
+.det-div li{float:left; margin-right:0.2cm; width:200px;}
+.det-div button{cursor:pointer;}
+
+.btn-grp{display:inline-block; margin-top:0.5cm;}
+.btn-grp ul{text-align:center; list-style:none; height:6px;}
+.btn-grp li{float:left; margin-right:0.4cm;}
+.btn-grp button{cursor:pointer;}
