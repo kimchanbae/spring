@@ -7,7 +7,6 @@ function User(){
 	const userData = {...location.state };
 	const navigate = useNavigate();
 	const [data, setData] = useState([]);
-	const [saveBtn, setBtn] = useState('');
 	
 	/* 입력폼 사용자정보 셋팅 객체 생성 */
 	const [inptus, setInptus] = useState({
@@ -18,12 +17,6 @@ function User(){
 	const {id, name, content} = inptus;
 	
 	useEffect(() => {
-		if(userData.id == ""){
-			setBtn(<button type="submit">등록</button>);
-		}else{
-			setBtn(<button type="submit">수정</button>);
-		}
-		
 		/*axios.get("http://localhost:9000/api/user/view?id=" + userData.id)*/
 		axios.post("http://localhost:9000/api/user/view", userData)
 		.then(res => {
@@ -34,7 +27,7 @@ function User(){
 		})
   	},[])
 	
-	/*입려폼 수정*/
+	/*입려폼 수정시*/
 	const onChange = (e) => {
 		const {name, value} = e.target
 		
@@ -71,13 +64,33 @@ function User(){
 		}
 	}
 	
+	function delite(){
+		if(window.confirm("삭제하시겠습니까?")){
+			axios.post("http://localhost:9000/api/user/delite", userData)
+			.then(res => {
+				alert("사용지 정보 삭제 성공~~~~~~");
+				navigate('/user');
+			})
+			.catch(error => {
+				console.error("오류:", error);
+			})
+		}else{
+			return;
+		}
+	}
+	
 	return (
 		<div className="App">
 			<header className="App-header">
 				<form name="userForm" onSubmit={onSubmit}>
 					<div className="det-div">
 						{data.map((v,idx) => 
-							<ul><li>아이디</li><li key={idx}><input type="text" name="id" value={inptus.id} onChange={onChange} /></li></ul>
+							<ul>
+								<li>아이디</li><li key={idx}>
+								{userData.id === "" ? <input type="text" name="id" value={inptus.id} onChange={onChange} /> :
+								<input type="text" name="id" value={inptus.id} onChange={onChange} disabled />}
+								</li>
+							</ul>
 						)}
 						{data.map((v,idx) => 
 							<ul><li>이름</li><li key={idx}><input type="text" name="name" value={inptus.name} onChange={onChange} /></li></ul>
@@ -88,7 +101,10 @@ function User(){
 					</div>
 					<div className="btn-grp">
 						<ul>
-							<li>{saveBtn}</li> 
+							{userData.id === "" ? <li><button type="submit">등록</button></li> : 
+								<li><button type="submit">수정</button></li>}
+							{userData.id === "" ? null : 
+								<li><button type="button" onClick={(() => delite())}>삭제</button></li>}
 							<li><a className="App-link" href="/user">이전</a></li>
 						</ul>
 					</div>

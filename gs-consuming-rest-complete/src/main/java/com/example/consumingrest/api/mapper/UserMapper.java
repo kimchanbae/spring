@@ -16,4 +16,6 @@ public interface UserMapper {
 	
 	public void update(Map paramMap);
 	
+	public void delite(Map paramMap);
+	
 }

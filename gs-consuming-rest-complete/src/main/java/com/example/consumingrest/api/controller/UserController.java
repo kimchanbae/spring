@@ -27,20 +27,20 @@ public class UserController {
 	
 	@ResponseBody
 	@GetMapping
-	public List userList() {
+	public List list() {
 		List<Map<String, Object>> list = userService.selectList(); 
 		
 		return list;
 	}
 	
 	@PostMapping("/save")
-	public void userSave(@RequestBody Map paramMap) {
+	public void save(@RequestBody Map paramMap) {
 		userService.save(paramMap);
 	}
 	
 	@ResponseBody
 	@GetMapping("/view")
-	public Map<String, Object> userGetView(@RequestParam Map paramMap) {
+	public Map<String, Object> getView(@RequestParam Map paramMap) {
 		log.debug("==============사용자 정보 get 호출================");
 		log.debug(paramMap.toString());
 		
@@ -50,13 +50,18 @@ public class UserController {
 	}
 	
 	@PostMapping("/view")
-	public Map<String, Object> userPostView(@RequestBody Map paramMap) {
+	public Map<String, Object> postView(@RequestBody Map paramMap) {
 		log.debug("==============사용자 정보 post 호출================");
 		log.debug(paramMap.toString());
 		
 		Map<String, Object> map = userService.selectOne(paramMap); 
 		
 		return map;
+	}
+	
+	@PostMapping("/delite")
+	public void delite(@RequestBody Map paramMap) {
+		userService.delite(paramMap);
 	}
 	
 }

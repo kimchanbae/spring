@@ -35,4 +35,9 @@
         WHERE id = #{id}  
     </update>
     
+    <update id="delite" parameterType="hashmap">
+        DELETE FROM member
+        WHERE id = #{id}  
+    </update>
+    
 </mapper>

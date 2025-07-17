@@ -31,4 +31,8 @@ public class UserService {
 		}
 	}
 	
+	public void delite(Map paramMap) {
+		userMapper.delite(paramMap);
+	}
+	
 }
