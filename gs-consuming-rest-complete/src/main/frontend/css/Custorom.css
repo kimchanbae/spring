@@ -1,13 +1,17 @@
+.w-50{width:50px;}
+.w-60{width:60px;}
+.w-100{width:100px;}
+.w-300{width:300px;}
+
 .div-item ul {
 	list-style:none;
 	height:6px;
 	text-align:center;
-	margin-bottom:0.2cm;
+	margin-bottom:0.5cm;
 }
 .div-item li {
 	margin-right:0.2cm;
 	float:left;
-	width:200px;
 }
 .div-item button{cursor:pointer;}
 
@@ -16,7 +20,7 @@
 .top-div{text-align:left;}
 .top-ul{text-align:left; margin-bottom:0.8cm; list-style:none;}
 
-.det-div ul{text-align:center; margin-bottom:0.4cm; list-style:none; display:table-row;}
+.det-div ul{text-align:center; margin-bottom:0.6cm; height:6px; list-style:none; display:table-row;}
 .det-div li{float:left; margin-right:0.2cm; width:200px;}
 .det-div button{cursor:pointer;}
 
@@ -24,3 +28,40 @@
 .btn-grp ul{text-align:center; list-style:none; height:6px;}
 .btn-grp li{float:left; margin-right:0.4cm;}
 .btn-grp button{cursor:pointer;}
+
+
+/*모달*/
+/*팝업 배경*/
+.modal {
+	position: fixed;
+  	top: 0;
+  	left: 0;
+  	width: 100%;
+  	height: 100%;
+  	background: rgba(0, 0, 0, 0.5);
+  	display: flex;
+  	justify-content: center;
+  	align-items: center;
+}
+/*팝업*/
+.modal .modal_popup {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 20px;
+	width:max-content;
+}
+/*팝업 닫기 버튼*/
+.modal .modal_popup .close_btn {
+    display: block;
+    padding: 10px 20px;
+    background-color: rgb(116, 0, 0);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}

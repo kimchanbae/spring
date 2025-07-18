@@ -5,6 +5,7 @@
     <select id="selectList" resultType="hashmap">
         SELECT * 
           FROM member
+         WHERE use_yn = 'Y' 
          ORDER BY reg_date DESC
     </select>
     
@@ -18,25 +19,28 @@
         INSERT INTO member
         	(id, 
         	 name, 
-        	 content, 
-        	 reg_date) 
+        	 comment, 
+        	 reg_date,
+        	 use_yn) 
         VALUES
         	(#{id}, 
         	 #{name}, 
-        	 #{content}, 
-        	 NOW())
+        	 #{comment}, 
+        	 NOW(),
+        	 'Y')
     </insert>
     
     <update id="update" parameterType="hashmap">
         UPDATE member SET
         	name = #{name},
-        	content = #{content}, 
+        	comment = #{comment}, 
         	upd_date = NOW()
         WHERE id = #{id}  
     </update>
     
     <update id="delite" parameterType="hashmap">
-        DELETE FROM member
+        UPDATE member SET
+        	use_yn = 'N'
         WHERE id = #{id}  
     </update>
     

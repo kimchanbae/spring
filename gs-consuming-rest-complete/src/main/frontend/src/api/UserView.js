@@ -12,9 +12,9 @@ function User(){
 	const [inptus, setInptus] = useState({
 		id: "",
 		name: "",
-		content: ""
+		comment: ""
 	});
-	const {id, name, content} = inptus;
+	const {id, name, comment} = inptus;
 	
 	useEffect(() => {
 		/*axios.get("http://localhost:9000/api/user/view?id=" + userData.id)*/
@@ -47,16 +47,18 @@ function User(){
 			
 			let saveMode="create";
 			if(userData.id != ""){
-				saveMode="update"
+				saveMode="update";
+				data.id = userData.id;
 			}
 			data.mode = saveMode;
 			
 			axios.post("http://localhost:9000/api/user/save", data)
 			.then(res => {
-				alert("사용지 정보 등록 성공~~~~~~");
+				alert("사용지 정보 저장 성공~~~~~~");
 				navigate('/user');
 			})
 			.catch(error => {
+				alert("시용자정보 등록 오류\n관리자에게 문의\n" + error);
 				console.error("오류:", error);
 			})
 		}else{
@@ -64,6 +66,7 @@ function User(){
 		}
 	}
 	
+	/*삭제*/
 	function delite(){
 		if(window.confirm("삭제하시겠습니까?")){
 			axios.post("http://localhost:9000/api/user/delite", userData)
@@ -96,7 +99,7 @@ function User(){
 							<ul><li>이름</li><li key={idx}><input type="text" name="name" value={inptus.name} onChange={onChange} /></li></ul>
 						)}
 						{data.map((v,idx) => 
-							<ul><li>내용</li><li key={idx}><textarea name="content" value={inptus.content} onChange={onChange} rows="10" cols="50" /></li></ul>
+							<ul><li>내용</li><li key={idx}><textarea name="comment" value={inptus.comment} onChange={onChange} rows="10" cols="50" /></li></ul>
 						)}
 					</div>
 					<div className="btn-grp">

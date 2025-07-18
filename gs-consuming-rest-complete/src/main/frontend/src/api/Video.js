@@ -20,11 +20,14 @@ function User(){
 		<div className="App">
 	      	<header className="App-header">
 		  		<div className="div-item">	
-			  		<ul><li>제목</li><li>내용</li></ul>
+			  		<ul>
+						<li className="w-300">제목</li>
+						<li className="w-300">내용</li>
+					</ul>
 					{data.map((v) => 
 						<ul>
-						<li>{v.title}</li>
-						<li>{v.content}</li>
+							<li className="w-300">{v.title}</li>
+							<li className="w-300">{v.content}</li>
 						</ul>
 					)}
 				</div>
