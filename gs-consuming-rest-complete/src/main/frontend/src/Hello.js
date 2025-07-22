@@ -1,13 +1,7 @@
-/*import logo from './logo.svg';*/ 
 import React, {useEffect, useState} from "react";
 import axios from "axios"; 
 
 function Hello(){
-	/*const sumDate = '2023-01-01';
-	const exDivCode = 'A';
-	const tcsType = 'Y';
-	const carType = 'Sedan';*/
-	
 	const [data, setData] = useState([]);
 	/*const [data, setData] = useState('');*/
 			
@@ -30,17 +24,15 @@ function Hello(){
   	},[])  
 	
 	return (
-		<div className="App div-item">
-	      <header className="App-header">
-		  	<a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
-			<a className="App-link" href="/sample">sample</a>
-			<a className="App-link" href="/user">사용자정보</a>
-			<a className="App-link" href="/video">영화정보</a>
-			<ul className="main">
-  				{data.map((v,idx) =>  <li key={idx}>{v.content}</li> )}
-  			</ul>
-	      </header>
-	    </div>
+		<header className="App-header">
+			<div className="div-item">
+				{/* <TopContent /> */}
+					{/* <a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a> */}
+					<ul className="main">
+						{data.map((v,idx) =>  <li key={idx}>{v.content}</li> )}
+					</ul>
+			</div>
+	    </header>
   	);
 }
 

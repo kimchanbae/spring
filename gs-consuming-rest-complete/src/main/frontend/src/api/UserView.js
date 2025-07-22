@@ -58,7 +58,7 @@ function User(){
 				navigate('/user');
 			})
 			.catch(error => {
-				alert("시용자정보 등록 오류\n관리자에게 문의\n" + error);
+				alert("시용자정보 등록 오류\n관리자에게 문의하세요.\n" + error);
 				console.error("오류:", error);
 			})
 		}else{
@@ -83,37 +83,29 @@ function User(){
 	}
 	
 	return (
-		<div className="App">
-			<header className="App-header">
-				<form name="userForm" onSubmit={onSubmit}>
-					<div className="det-div">
-						{data.map((v,idx) => 
-							<ul>
-								<li>아이디</li><li key={idx}>
-								{userData.id === "" ? <input type="text" name="id" value={inptus.id} onChange={onChange} /> :
-								<input type="text" name="id" value={inptus.id} onChange={onChange} disabled />}
-								</li>
-							</ul>
-						)}
-						{data.map((v,idx) => 
-							<ul><li>이름</li><li key={idx}><input type="text" name="name" value={inptus.name} onChange={onChange} /></li></ul>
-						)}
-						{data.map((v,idx) => 
-							<ul><li>내용</li><li key={idx}><textarea name="comment" value={inptus.comment} onChange={onChange} rows="10" cols="50" /></li></ul>
-						)}
-					</div>
-					<div className="btn-grp">
-						<ul>
-							{userData.id === "" ? <li><button type="submit">등록</button></li> : 
-								<li><button type="submit">수정</button></li>}
-							{userData.id === "" ? null : 
-								<li><button type="button" onClick={(() => delite())}>삭제</button></li>}
-							<li><a className="App-link" href="/user">이전</a></li>
-						</ul>
-					</div>
-				</form>
-	      </header>
-	    </div>
+		<header className="App-header">
+			<form name="userForm" onSubmit={onSubmit}>
+				<div className="det-div">
+					<ul>
+						<li>아이디</li><li>
+						{userData.id === "" ? <input type="text" name="id" value={inptus.id} onChange={onChange} /> :
+						<input type="text" name="id" value={inptus.id} onChange={onChange} disabled />}
+						</li>
+					</ul>
+					<ul><li>이름</li><li><input type="text" name="name" value={inptus.name} onChange={onChange} /></li></ul>
+					<ul><li>내용</li><li><textarea name="comment" value={inptus.comment} onChange={onChange} rows="10" cols="50" /></li></ul>
+				</div>
+				<div className="btn-grp">
+					<ul>
+						{userData.id === "" ? <li><button type="submit">등록</button></li> : 
+							<li><button type="submit">수정</button></li>}
+						{userData.id === "" ? null : 
+							<li><button type="button" onClick={(() => delite())}>삭제</button></li>}
+						<li><a className="App-link" href="/user">목록</a></li>
+					</ul>
+				</div>
+			</form>
+		</header>
   	);
 }
 

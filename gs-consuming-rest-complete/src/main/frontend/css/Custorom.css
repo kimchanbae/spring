@@ -1,3 +1,5 @@
+.nav-link{margin-right: 0.5cm;}
+
 .w-50{width:50px;}
 .w-60{width:60px;}
 .w-100{width:100px;}
@@ -7,13 +9,12 @@
 	list-style:none;
 	height:6px;
 	text-align:center;
-	margin-bottom:0.5cm;
 }
 .div-item li {
-	margin-right:0.2cm;
+	margin:2px 4px;
 	float:left;
 }
-.div-item button{cursor:pointer;}
+.div-item button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:blue; padding: 3px 6px;}
 
 .main li {width:400px;}
 
@@ -21,13 +22,14 @@
 .top-ul{text-align:left; margin-bottom:0.8cm; list-style:none;}
 
 .det-div ul{text-align:center; margin-bottom:0.6cm; height:6px; list-style:none; display:table-row;}
-.det-div li{float:left; margin-right:0.2cm; width:200px;}
+.det-div li{float:left; margin:2px 4px; width:200px;}
 .det-div button{cursor:pointer;}
+.det-div .left{text-align:left; margin-left:0.4cm;}
 
 .btn-grp{display:inline-block; margin-top:0.5cm;}
 .btn-grp ul{text-align:center; list-style:none; height:6px;}
 .btn-grp li{float:left; margin-right:0.4cm;}
-.btn-grp button{cursor:pointer;}
+.btn-grp button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:blue; padding: 3px 6px;}
 
 
 /*모달*/
@@ -57,7 +59,7 @@
 /*팝업 닫기 버튼*/
 .modal .modal_popup .close_btn {
     display: block;
-    padding: 10px 20px;
+    padding: 6px 10px;
     background-color: rgb(116, 0, 0);
     border: none;
     border-radius: 5px;
