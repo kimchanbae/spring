@@ -25,10 +25,17 @@ public class UserController {
 	private UserService userService;
 	
 	
-	@ResponseBody
 	@GetMapping
-	public List list() {
-		List<Map<String, Object>> list = userService.selectList(); 
+	public List list(@RequestParam Map paramMap) {
+		List<Map<String, Object>> list = userService.list(paramMap); 
+		
+		return list;
+	}
+	
+	@PostMapping
+	@ResponseBody
+	public List postList(@RequestBody Map paramMap) {
+		List<Map<String, Object>> list = userService.list(paramMap); 
 		
 		return list;
 	}
@@ -41,20 +48,14 @@ public class UserController {
 	@ResponseBody
 	@GetMapping("/view")
 	public Map<String, Object> getView(@RequestParam Map paramMap) {
-		log.debug("==============사용자 정보 get 호출================");
-		log.debug(paramMap.toString());
-		
-		Map<String, Object> map = userService.selectOne(paramMap); 
+		Map<String, Object> map = userService.one(paramMap); 
 		
 		return map;
 	}
 	
 	@PostMapping("/view")
 	public Map<String, Object> postView(@RequestBody Map paramMap) {
-		log.debug("==============사용자 정보 post 호출================");
-		log.debug(paramMap.toString());
-		
-		Map<String, Object> map = userService.selectOne(paramMap); 
+		Map<String, Object> map = userService.one(paramMap); 
 		
 		return map;
 	}

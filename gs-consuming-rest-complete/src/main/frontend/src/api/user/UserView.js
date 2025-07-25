@@ -8,6 +8,16 @@ function User(){
 	const navigate = useNavigate();
 	const [data, setData] = useState([]);
 	
+	useEffect(() => {
+		/*axios.get("http://localhost:9000/api/user/view?id=" + userData.id)*/
+		axios.post("http://localhost:9000/api/user/view", userData)
+		.then(res => {
+			setData([res.data]);	/* 사용자정보 조회 객체 */
+			
+			setInptus(res.data);	/* 입력폼 사용자정보 객체 */
+		})
+  	},[])
+
 	/* 입력폼 사용자정보 셋팅 객체 생성 */
 	const [inptus, setInptus] = useState({
 		id: "",
@@ -15,17 +25,6 @@ function User(){
 		comment: ""
 	});
 	const {id, name, comment} = inptus;
-	
-	useEffect(() => {
-		/*axios.get("http://localhost:9000/api/user/view?id=" + userData.id)*/
-		axios.post("http://localhost:9000/api/user/view", userData)
-		.then(res => {
-			console.log("res:" + console.log(JSON.stringify(res.data)));
-			setData([res.data]);	/* 사용자정보 조회 객체 */
-			
-			setInptus(res.data);	/* 입력폼 사용자정보 객체 */
-		})
-  	},[])
 	
 	/*입려폼 수정시*/
 	const onChange = (e) => {
@@ -81,27 +80,30 @@ function User(){
 			return;
 		}
 	}
+
+	/* 목록이동 */
+	const list = () => {
+		navigate('/user');
+	}
 	
 	return (
 		<header className="App-header">
 			<form name="userForm" onSubmit={onSubmit}>
 				<div className="det-div">
 					<ul>
-						<li>아이디</li><li>
+						<li>아이디</li><li className="txt-left">
 						{userData.id === "" ? <input type="text" name="id" value={inptus.id} onChange={onChange} /> :
 						<input type="text" name="id" value={inptus.id} onChange={onChange} disabled />}
 						</li>
 					</ul>
-					<ul><li>이름</li><li><input type="text" name="name" value={inptus.name} onChange={onChange} /></li></ul>
-					<ul><li>내용</li><li><textarea name="comment" value={inptus.comment} onChange={onChange} rows="10" cols="50" /></li></ul>
+					<ul><li>이름</li><li className="txt-left"><input type="text" name="name" value={inptus.name} onChange={onChange} /></li></ul>
+					<ul><li>내용</li><li className="txt-left"><textarea name="comment" value={inptus.comment} onChange={onChange} rows="10" cols="50" /></li></ul>
 				</div>
 				<div className="btn-grp">
 					<ul>
-						{userData.id === "" ? <li><button type="submit">등록</button></li> : 
-							<li><button type="submit">수정</button></li>}
-						{userData.id === "" ? null : 
-							<li><button type="button" onClick={(() => delite())}>삭제</button></li>}
-						<li><a className="App-link" href="/user">목록</a></li>
+						{userData.id === "" ? <li><button type="submit">등록</button></li> : <li><button type="submit">수정</button></li>}
+						{userData.id === "" ? null : <li><button type="button" onClick={(() => delite())}>삭제</button></li>}
+						<li><button type="button" onClick={list}>목록</button></li>
 					</ul>
 				</div>
 			</form>

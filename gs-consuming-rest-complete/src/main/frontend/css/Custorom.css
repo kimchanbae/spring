@@ -1,36 +1,43 @@
-.nav-link{margin-right: 0.5cm;}
+.nav-link{margin-right: 0.5cm; text-decoration-line:none; cursor:pointer;}
+a{text-decoration-line:none; cursor:pointer;}
 
 .w-50{width:50px;}
 .w-60{width:60px;}
 .w-100{width:100px;}
+.w-150{width:150px;}
 .w-300{width:300px;}
 
-.div-item ul {
-	list-style:none;
-	height:6px;
-	text-align:center;
-}
-.div-item li {
-	margin:2px 4px;
-	float:left;
-}
-.div-item button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:blue; padding: 3px 6px;}
+.txt-left{text-align: left;}
 
 .main li {width:400px;}
 
 .top-div{text-align:left;}
 .top-ul{text-align:left; margin-bottom:0.8cm; list-style:none;}
+.top-ul-list{text-align:center; margin-bottom:0.8cm; list-style:none;}
 
+/* 목록 */
+.div-item{max-width: 1200px; margin-top:0.4cm;}
+.div-item .header{background-color: rgb(206, 213, 236); display: table-cell;}
+.div-item ul {list-style:none; height:6px; min-height: 6px; text-align:center;}
+.div-item li {float:left; border: 1px solid rgb(220, 220, 234); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.div-item button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:blue; padding: 3px 6px;}
+
+/* 상세 */
 .det-div ul{text-align:center; margin-bottom:0.6cm; height:6px; list-style:none; display:table-row;}
 .det-div li{float:left; margin:2px 4px; width:200px;}
 .det-div button{cursor:pointer;}
-.det-div .left{text-align:left; margin-left:0.4cm;}
 
-.btn-grp{display:inline-block; margin-top:0.5cm;}
+/* 버튼 */
+.btn-grp{display:inline-block; margin-top:0.3cm;}
 .btn-grp ul{text-align:center; list-style:none; height:6px;}
 .btn-grp li{float:left; margin-right:0.4cm;}
 .btn-grp button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:blue; padding: 3px 6px;}
 
+/* 검색조건 */
+.sch-form{max-width: 1000px; border: 1px solid rgb(165, 180, 188);}
+.sch-div{background-color: rgb(191, 189, 226); border-radius: 5px; display: table-header-group;}
+.sch-div ul{text-align:center; list-style:none;}
+.sch-div li{float:left; margin-right:4px;}
 
 /*모달*/
 /*팝업 배경*/
@@ -67,3 +74,17 @@
     cursor: pointer;
     transition: box-shadow 0.2s;
 }
+
+/* 마우스 오버 툴팁 */
+.hover-content {
+  position: absolute; /* 또는 relative */
+  background-color: lightyellow;
+  padding: 5px;
+  border: 1px solid gray;
+  z-index: 1; /* 다른 요소 위에 표시되도록 설정 */
+}
+
+.sample-left{float: left; width: 600px; max-width: 600px; text-align: right;}
+.sample-div{margin: 0 0 0 0.8cm; float: right; width: 1000px; max-width: 1200px; text-align: left;}
+.sample-div input{margin: 0 0 0 0.2cm;}
+.sample-div button{margin: 0 0 0 0.3cm;}

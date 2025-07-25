@@ -15,12 +15,12 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
-	public List selectList() {
-		return userMapper.selectList();
+	public List list(Map paramMap) {
+		return userMapper.list(paramMap);
 	}
 	
-	public Map<String, Object> selectOne(Map paramMap) {
-		return userMapper.selectOne(paramMap);
+	public Map<String, Object> one(Map paramMap) {
+		return userMapper.one(paramMap);
 	}
 	
 	public void save(Map paramMap) {

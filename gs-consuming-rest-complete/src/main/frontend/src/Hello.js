@@ -26,7 +26,6 @@ function Hello(){
 	return (
 		<header className="App-header">
 			<div className="div-item">
-				{/* <TopContent /> */}
 					{/* <a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a> */}
 					<ul className="main">
 						{data.map((v,idx) =>  <li key={idx}>{v.content}</li> )}
