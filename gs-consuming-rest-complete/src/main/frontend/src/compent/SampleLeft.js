@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import { Link } from "react-router-dom";
 
 // class SampleLeft extends Component {
-    // render(){
+//     render(){
 const SampleLeft = () => {
         return( 
             <nav>

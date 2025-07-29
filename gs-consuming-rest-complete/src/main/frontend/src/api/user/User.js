@@ -15,13 +15,18 @@ function User(){
 	const {id, name} = searchParames;
 
 	useEffect(() => {
-		const keywordId = localStorage.getItem('searchId');
-		const keywordName = localStorage.getItem('searchName');
+		/* 검색시 키원드에 입력된 정보 조회 */
+		// const keywordId = localStorage.getItem('searchId');
+		// const keywordName = localStorage.getItem('searchName');
+		const searchKeyword = JSON.parse(localStorage.getItem('search'));
 
 		/* 검색조건 검색설정된 정보 있을시 */
-		if(keywordId || keywordName){
-			searchParames.id = keywordId;
-			searchParames.name = keywordName;
+		// if(keywordId || keywordName){
+		if(searchKeyword){
+			// searchParames.id = keywordId;
+			// searchParames.name = keywordName;
+			searchParames.id = searchKeyword.id;
+			searchParames.name = searchKeyword.name;
 		}
 
 		search();
@@ -36,8 +41,13 @@ function User(){
 			setData(res.data);
 
 			/* 검색조건 설정정보 저장 */
-			localStorage.setItem('searchId', searchParames.id);
-			localStorage.setItem('searchName', searchParames.name);
+			// localStorage.setItem('searchId', searchParames.id);
+			// localStorage.setItem('searchName', searchParames.name);
+			localStorage.setItem('search', JSON.stringify(searchParames));
+
+			setTimeout(() => {
+				localStorage.clear();	// 로컬스토리지 클리어
+			}, 100000);
 		});
 	}
 

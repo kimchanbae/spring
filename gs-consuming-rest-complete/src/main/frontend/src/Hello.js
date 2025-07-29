@@ -26,7 +26,7 @@ function Hello(){
 	return (
 		<header className="App-header">
 			<div className="div-item">
-					{/* <a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a> */}
+					<a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">리액트API 이동</a>
 					<ul className="main">
 						{data.map((v,idx) =>  <li key={idx}>{v.content}</li> )}
 					</ul>
