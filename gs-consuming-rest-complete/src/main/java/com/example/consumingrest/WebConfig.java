@@ -3,6 +3,7 @@ package com.example.consumingrest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -26,5 +27,10 @@ public class WebConfig implements WebMvcConfigurer {
             .allowedOrigins("http://localhost:3000") // 허용할 Origin 설정
             .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
+	
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/uploads/**").addResourceLocations("file:uploads/");
+	}
 	
 }

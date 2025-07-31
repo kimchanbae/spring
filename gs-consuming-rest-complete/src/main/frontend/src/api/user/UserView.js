@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ function User(){
 	const [inptus, setInptus] = useState({
 		id: "",
 		name: "",
-		comment: ""
+		comment: "",
 	});
 	const {id, name, comment} = inptus;
 	
@@ -81,6 +81,18 @@ function User(){
 		}
 	}
 
+	const [file, setFiles] = useState(null);
+	/* 파일 체인지 */
+	const fileChange = (e) => {
+		console.log("files:" + JSON.stringify(e.target.files[0]));
+
+		// const selectedFile = e.target.files[0];
+		// setFiles(selectedFile);
+
+		// console.log("aaaaa:" + JSON.stringify(file));
+		// setFiles(e.target.files[0]);
+	}
+
 	/* 목록이동 */
 	const list = () => {
 		navigate('/user');
@@ -98,6 +110,7 @@ function User(){
 					</ul>
 					<ul><li>이름</li><li className="txt-left"><input type="text" name="name" value={inptus.name} onChange={onChange} /></li></ul>
 					<ul><li>내용</li><li className="txt-left"><textarea name="comment" value={inptus.comment} onChange={onChange} rows="10" cols="50" /></li></ul>
+					<ul><li>파일</li><li className="txt-left"><input type="file" id="fileName" name="fileName" onChange={fileChange} /></li></ul>
 				</div>
 				<div className="btn-grp">
 					<ul>

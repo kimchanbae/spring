@@ -42,7 +42,9 @@ public class UserController {
 	
 	@PostMapping("/save")
 	public void save(@RequestBody Map paramMap) {
-		userService.save(paramMap);
+		log.debug("usersave~~~~:" + paramMap);
+		
+//		userService.save(paramMap);
 	}
 	
 	@ResponseBody
