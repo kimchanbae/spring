@@ -16,8 +16,6 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +36,8 @@ public class FileController {
 	
 	@PostMapping("/fileUpload")
 	public ResponseEntity<String> fileUpload(@RequestParam("file") MultipartFile files) throws Exception {
+		log.debug("============== 파일 업로드 =====================");
+		log.debug(files.toString());
 		
 		if(files.isEmpty()) {
 			return ResponseEntity.badRequest().body("파일을 선택하세요...");

@@ -1,6 +1,6 @@
 package com.example.consumingrest.api.service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +23,16 @@ public class UserService {
 		return userMapper.one(paramMap);
 	}
 	
-	public void save(Map paramMap) {
+	public void save(Map paramMap) throws Exception  {
 		if(paramMap.get("mode").equals("create")) {
+			Map user = userMapper.one(paramMap);
+			
+			if(user != null && !user.isEmpty()) {
+				if(paramMap.containsValue(user.get("id"))) {
+					throw new Exception("동일한 아이디가 존재합니다.");
+				}
+			}
+			
 			userMapper.insert(paramMap);
 		}else {
 			userMapper.update(paramMap);

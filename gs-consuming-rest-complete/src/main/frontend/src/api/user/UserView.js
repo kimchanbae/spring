@@ -7,6 +7,7 @@ function User(){
 	const userData = {...location.state };
 	const navigate = useNavigate();
 	const [data, setData] = useState([]);
+	const [files, setFiles] = useState(null);	/* 파일정보 객체 */
 	
 	useEffect(() => {
 		/*axios.get("http://localhost:9000/api/user/view?id=" + userData.id)*/
@@ -50,11 +51,17 @@ function User(){
 				data.id = userData.id;
 			}
 			data.mode = saveMode;
-			
+
 			axios.post("http://localhost:9000/api/user/save", data)
 			.then(res => {
-				alert("사용지 정보 저장 성공~~~~~~");
-				navigate('/user');
+				if(res.data.message != null && res.data.message != ""){
+					alert(res.data.message);
+				}else{
+					alert("사용자 정보 저장 성공~~~~~~");
+				}
+				
+				// fileUpload();
+				// navigate('/user');
 			})
 			.catch(error => {
 				alert("시용자정보 등록 오류\n관리자에게 문의하세요.\n" + error);
@@ -63,6 +70,21 @@ function User(){
 		}else{
 			return;
 		}
+	}
+
+	/* 파일업로드 */
+	const fileUpload = async () => {
+		const fileData = new FormData();
+		fileData.append('file', files);
+
+		await axios.post("http://localhost:9000/common/fileUpload", fileData)
+		.then(res => {
+			navigate('/user');
+		})
+		.catch(error => {
+			alert(error.response.data + "\n" + error);
+			console.error("오류:", error);
+		})
 	}
 	
 	/*삭제*/
@@ -81,16 +103,9 @@ function User(){
 		}
 	}
 
-	const [file, setFiles] = useState(null);
 	/* 파일 체인지 */
 	const fileChange = (e) => {
-		console.log("files:" + JSON.stringify(e.target.files[0]));
-
-		// const selectedFile = e.target.files[0];
-		// setFiles(selectedFile);
-
-		// console.log("aaaaa:" + JSON.stringify(file));
-		// setFiles(e.target.files[0]);
+		setFiles(e.target.files[0]); 
 	}
 
 	/* 목록이동 */
@@ -103,14 +118,24 @@ function User(){
 			<form name="userForm" onSubmit={onSubmit}>
 				<div className="det-div">
 					<ul>
-						<li>아이디</li><li className="txt-left">
+						<li className="det-header">아이디</li>
+						<li className="det-cont">
 						{userData.id === "" ? <input type="text" name="id" value={inptus.id} onChange={onChange} /> :
 						<input type="text" name="id" value={inptus.id} onChange={onChange} disabled />}
 						</li>
 					</ul>
-					<ul><li>이름</li><li className="txt-left"><input type="text" name="name" value={inptus.name} onChange={onChange} /></li></ul>
-					<ul><li>내용</li><li className="txt-left"><textarea name="comment" value={inptus.comment} onChange={onChange} rows="10" cols="50" /></li></ul>
-					<ul><li>파일</li><li className="txt-left"><input type="file" id="fileName" name="fileName" onChange={fileChange} /></li></ul>
+					<ul>
+						<li className="det-header">이름</li>
+						<li className="det-cont"><input type="text" name="name" value={inptus.name} onChange={onChange} /></li>
+					</ul>
+					<ul>
+						<li className="det-header">내용</li>
+						<li className="det-cont"><textarea name="comment" value={inptus.comment} onChange={onChange} rows="10" cols="50" /></li>
+					</ul>
+					<ul>
+						<li className="det-header">파일</li>
+						<li className="det-cont"><input type="file" multiple onChange={fileChange} /></li>
+					</ul>
 				</div>
 				<div className="btn-grp">
 					<ul>

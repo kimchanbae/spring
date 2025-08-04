@@ -1,10 +1,11 @@
 import React, {useEffect, useRef, useState} from "react";
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from "axios";
-import Model from "/common/model";
+import Model from "/src/common/js/model";
 
 function User(){
 	const [data, setData] = useState([]);
+	const [rowCount, setRowCount] = useState('');
 	const inputRef = useRef();
 
 	/* 검색조건 셋팅 객체 생성 */	
@@ -38,6 +39,7 @@ function User(){
 	const search = () => {
 		axios.post("http://localhost:9000/api/user", searchParames)
 		.then(res => {
+			setRowCount(res.data.length);
 			setData(res.data);
 
 			/* 검색조건 설정정보 저장 */
@@ -97,37 +99,50 @@ function User(){
 
 	return (
 		<header className="App-header">
+			<div className="title"><ul><li>사용자 정보</li><li className="grd-count">총건수:{rowCount}건</li></ul></div>
 			<form name="schForm" className="sch-form">
 				<div className="sch-div">
 					<ul>
-						<li>아이디</li>
-						<li><input ref={inputRef} type="text" id="id" value={searchParames.id} onChange={onChange} /></li>
-						{/* <li><input ref={inputRef} type="text" id="id" value={id} onChange={(e) => setId(e.target.value)} /></li> */}
-						<li>이름</li>
-						<li><input type="text" id="name" value={searchParames.name} onChange={onChange} /></li>
-						{/* <li><input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} /></li> */}
-						<li><button type="button" onClick={search}>검색</button></li>
+						<li>
+							<div className="sch-left">
+								<ul>
+									<li>아이디<input ref={inputRef} type="text" id="id" value={searchParames.id} onChange={onChange} /></li>
+									{/* <li><input ref={inputRef} type="text" id="id" value={id} onChange={(e) => setId(e.target.value)} /></li> */}
+									<li>이름<input type="text" id="name" value={searchParames.name} onChange={onChange} /></li>
+									{/* <li><input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} /></li> */}
+								</ul>
+							</div>
+						</li>
+						<li>
+							<div className="sch-btn">
+								<button type="button" onClick={search}>검색</button>
+							</div>
+						</li>
 					</ul>
 				</div>
 			</form>
 			<div className="div-item">
-				<ul className="header">
-					<li className="w-100">아이디</li>
-					<li className="w-150">이름</li>
-					<li className="w-300">내용</li>
-					<li className="w-100">상세</li>
-					<li className="w-100">팝업</li>
-				</ul>
+				<div className="header">
+					<ul>
+						<li className="w-100">아이디</li>
+						<li className="w-150">이름</li>
+						<li className="w-300">내용</li>
+						<li className="w-100">상세</li>
+						<li className="w-100">팝업</li>
+					</ul>
+				</div>
 				{data.map((v) => 
-				<ul>
-					<li className="w-100">{v.id}</li>
-					<li className="w-150 txt-left">{v.name}</li>
-					<li className="w-300 txt-left" onMouseEnter={() => handleMouseEnter(v.seq)} onMouseLeave={handleMouseLeave}>
-						{(isHoverd && v.seq === TooltipIdx && <div className="hover-content">{v.comment}</div>)}{v.comment}
-					</li>
-					<li className="w-100"><button onClick={() => detail(v.id)}>상세(view)</button></li>
-					<li className="w-100"><button onClick={() => model(v.id)}>상세(팝업)</button></li>
-				</ul>
+				<div className="row">
+					<ul>
+						<li className="w-100">{v.id}</li>
+						<li className="w-150 txt-left">{v.name}</li>
+						<li className="w-300 txt-left" onMouseEnter={() => handleMouseEnter(v.seq)} onMouseLeave={handleMouseLeave}>
+							{(isHoverd && v.seq === TooltipIdx && <div className="hover-content">{v.comment}</div>)}{v.comment}
+						</li>
+						<li className="w-100"><button onClick={() => detail(v.id)}>상세(view)</button></li>
+						<li className="w-100"><button onClick={() => model(v.id)}>상세(팝업)</button></li>
+					</ul>
+				</div>
 				)}
 			</div>
 			<div className="btn-grp">
@@ -138,9 +153,9 @@ function User(){
 			<Model isOpen={open} onClose={() => setOpen(false)}>
 				<h3>사용자 정보</h3>	
 				<div className="det-div">
-					<ul><li>아이디</li><li className="txt-left">{userData.id}</li></ul>
-					<ul><li>이름</li><li className="txt-left">{userData.name}</li></ul>
-					<ul><li>내용</li><li className="txt-left">{userData.comment}</li></ul>
+					<ul><li className="det-header">아이디</li><li className="det-cont">{userData.id}</li></ul>
+					<ul><li className="det-header">이름</li><li className="det-cont">{userData.name}</li></ul>
+					<ul><li className="det-header">내용</li><li className="det-cont">{userData.comment}</li></ul>
 				</div>
 			</Model>
 		</header>

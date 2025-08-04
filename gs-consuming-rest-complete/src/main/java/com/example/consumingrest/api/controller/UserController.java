@@ -1,5 +1,6 @@
 package com.example.consumingrest.api.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -41,10 +42,17 @@ public class UserController {
 	}
 	
 	@PostMapping("/save")
-	public void save(@RequestBody Map paramMap) {
-		log.debug("usersave~~~~:" + paramMap);
+	public Map<String, Object> save(@RequestBody Map paramMap) {
+		Map<String, Object> resMap = new HashMap<>();
 		
-//		userService.save(paramMap);
+		try {
+			userService.save(paramMap);
+		} catch (Exception e) {
+			// TODO: handle exception
+			resMap.put("message", e.getMessage());
+		}
+		
+		return resMap;
 	}
 	
 	@ResponseBody

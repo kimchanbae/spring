@@ -1,13 +1,13 @@
 import React from 'react';
 import '/src/App.css'
-import '/css/Custorom.css';
+import './common/css/Custorom.css';
 import { Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import Hello from './Hello';
 import Sample from './Sample';
 import User from './api/user/User';
 import UserView from './api/user/UserView';
-import Video from '/src/api/Video';
+import Video from './api/video/Video';
 
 function App() {
 	return (

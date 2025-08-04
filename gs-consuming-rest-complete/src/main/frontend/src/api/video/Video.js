@@ -50,31 +50,43 @@ function User(){
 	
 	return (
 		<header className="App-header">
+			<div className="title"><ul><li>영화 정보</li></ul></div>
 			<form name="schForm" className="sch-form">
 				<div className="sch-div">
 					<ul>
-						<li>제목</li>
-						<li><input ref={inputRef} type="text" id="title" value={title} onChange={onChange} /></li>
-						<li>내용</li>
-						<li><input type="text" id="comment" value={comment} onChange={onChange} /></li>
-						<li>배우명</li>
-						<li><input type="text" id="actor" value={actor} onChange={onChange} /></li>
-						<li><button type="button" onClick={search}>검색</button></li>
+						<li>
+							<div className="sch-left">
+								<ul>
+									<li>제목<input ref={inputRef} type="text" id="title" value={title} onChange={onChange} /></li>
+									<li>내용<input type="text" id="comment" value={comment} onChange={onChange} /></li>
+									<li>배우명<input type="text" id="actor" value={actor} onChange={onChange} /></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<div className="sch-btn">
+								<button type="button" onClick={search}>검색</button>
+							</div>
+						</li>
 					</ul>
 				</div>
 			</form>
-			<div className="div-item">	
-				<ul className="header">
-					<li className="w-150">제목</li>
-					<li className="w-300">내용</li>
-					<li className="w-150">배우명</li>
-				</ul>
+			<div className="div-item">
+				<div className="header">		
+					<ul>
+						<li className="w-150">제목</li>
+						<li className="w-300">내용</li>
+						<li className="w-150">배우명</li>
+					</ul>
+				</div>
 				{data.map((v) => 
+				<div className="row">	
 					<ul>
 						<li className="w-150">{v.title}</li>
 						<li className="w-300">{v.comment}</li>
 						<li className="w-150">{v.actor}</li>
 					</ul>
+				</div>
 				)}
 			</div>
 			<div className="btn-grp">

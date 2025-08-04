@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import SampleLeft from "./compent/SampleLeft"
-import Model from "/common/model";
+import Model from "./common/js/model";
 
 function Sample(){
 	const [data, setData] = useState([]);
@@ -125,26 +125,31 @@ function Sample(){
 	
 	return (
 		<header className="App-header">
-			<div>
+			<div className="title"><ul><li>예제</li></ul></div>
+			<div className="sample-cont">
 				<div className="sample-left">
 					<SampleLeft />
 				</div>
 				<div className="sample-div">
 					<ul>	
-						API 호출 데이터: {data}
+						<li>API 호출 데이터: {data}</li>
 					</ul>
 					<ul>
-						카운트:<input type="text" id="count" value={count} />
-						<button type="button" onClick={handleCountPlus}>카운트증가</button>
-						<button type="button" onClick={handleCountMinus}>카운트빼기</button>
+						<li>
+							카운트:<input type="text" id="count" value={count} />
+							<button type="button" onClick={handleCountPlus}>카운트증가</button>
+							<button type="button" onClick={handleCountMinus}>카운트빼기</button>
+						</li>
 					</ul>
 					<ul>
-						<button onClick={modelOpen}>모달호출</button>
+						<li><button onClick={modelOpen}>모달호출</button></li>
 					</ul>
 					<ul>
-						<input type="file" onChange={fileChange}></input>
-						<button type="button" onClick={fileUpload}>파일업로드</button>
-						<button type="button" onClick={() => fileDownload('00eb82634b4f1e90f8a8f0792b97673d.jpg')}>파일다운로드</button>
+						<li>
+							<input type="file" onChange={fileChange}></input>
+							<button type="button" onClick={fileUpload}>파일업로드</button>
+							<button type="button" onClick={() => fileDownload('00eb82634b4f1e90f8a8f0792b97673d.jpg')}>파일다운로드</button>
+						</li>
 					</ul>
 				</div>
 			</div>
