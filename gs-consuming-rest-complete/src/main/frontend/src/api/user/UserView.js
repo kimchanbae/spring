@@ -38,51 +38,64 @@ function User(){
 	}
 	
 	/*등록, 수정*/
-	const onSubmit = (e) => {
+	const onSubmit = async (e) => {
 		e.preventDefault();		/* 페이지 리로드 방지 */
 		
 		if(window.confirm("저장하시겠습니까?")){
-			const formData = new FormData(e.target);
-			const data = Object.fromEntries(formData.entries());
-			
-			let saveMode="create";
-			if(userData.id != ""){
-				saveMode="update";
-				data.id = userData.id;
+			if(files){
+				fileUpload(e);
+			}else{
+				save(e);
 			}
-			data.mode = saveMode;
-
-			axios.post("http://localhost:9000/api/user/save", data)
-			.then(res => {
-				if(res.data.message != null && res.data.message != ""){
-					alert(res.data.message);
-				}else{
-					alert("사용자 정보 저장 성공~~~~~~");
-				}
-				
-				// fileUpload();
-				// navigate('/user');
-			})
-			.catch(error => {
-				alert("시용자정보 등록 오류\n관리자에게 문의하세요.\n" + error);
-				console.error("오류:", error);
-			})
 		}else{
 			return;
 		}
 	}
 
 	/* 파일업로드 */
-	const fileUpload = async () => {
+	const fileUpload = async (e) => {
 		const fileData = new FormData();
 		fileData.append('file', files);
 
-		await axios.post("http://localhost:9000/common/fileUpload", fileData)
+		inptus.apicompent = "user";
+		fileData.append('params', JSON.stringify(inptus));
+
+		await axios.post("http://localhost:9000/common/api/fileUpload", fileData)
 		.then(res => {
-			navigate('/user');
+			console.log("res:" + JSON.stringify(res));
+			
+			save(e);
 		})
 		.catch(error => {
 			alert(error.response.data + "\n" + error);
+			console.error("오류:", error);
+		})
+	}
+
+	/* 등록,수정 실행 */ 
+	const save = (e) => {
+		const formData = new FormData(e.target);
+		const data = Object.fromEntries(formData.entries());
+		
+		let saveMode="create";
+		if(userData.id != ""){
+			saveMode="update";
+			data.id = userData.id;
+		}
+		data.mode = saveMode;
+		
+		axios.post("http://localhost:9000/api/user/save", data)
+		.then(res => {
+			if(res.data.message != null && res.data.message != ""){
+				alert(res.data.message);
+			}else{
+				alert("사용자 정보 저장 성공~~~~~~");
+			}
+			
+			list();
+		})
+		.catch(error => {
+			alert("시용자정보 등록 오류\n관리자에게 문의하세요.\n" + error);
 			console.error("오류:", error);
 		})
 	}
@@ -140,7 +153,7 @@ function User(){
 				<div className="btn-grp">
 					<ul>
 						{userData.id === "" ? <li><button type="submit">등록</button></li> : <li><button type="submit">수정</button></li>}
-						{userData.id === "" ? null : <li><button type="button" onClick={(() => delite())}>삭제</button></li>}
+						{userData.id === "" ? null : <li><button type="button" onClick={() => delite()}>삭제</button></li>}
 						<li><button type="button" onClick={list}>목록</button></li>
 					</ul>
 				</div>

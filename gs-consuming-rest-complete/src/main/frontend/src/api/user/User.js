@@ -124,16 +124,19 @@ function User(){
 			<div className="div-item">
 				<div className="header">
 					<ul>
+						<li className="w-50">순번</li>	
 						<li className="w-100">아이디</li>
 						<li className="w-150">이름</li>
 						<li className="w-300">내용</li>
 						<li className="w-100">상세</li>
 						<li className="w-100">팝업</li>
+						<li>등록일시</li>
 					</ul>
 				</div>
-				{data.map((v) => 
+				{data.map((v, idx) =>  
 				<div className="row">
 					<ul>
+						<li className="w-50">{idx}</li>
 						<li className="w-100">{v.id}</li>
 						<li className="w-150 txt-left">{v.name}</li>
 						<li className="w-300 txt-left" onMouseEnter={() => handleMouseEnter(v.seq)} onMouseLeave={handleMouseLeave}>
@@ -141,6 +144,7 @@ function User(){
 						</li>
 						<li className="w-100"><button onClick={() => detail(v.id)}>상세(view)</button></li>
 						<li className="w-100"><button onClick={() => model(v.id)}>상세(팝업)</button></li>
+						<li>{v.reg_date}</li>
 					</ul>
 				</div>
 				)}

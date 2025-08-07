@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef} from "react";
 import axios from "axios";
 
-function User(){
+function Video(){
 	const [data, setData] = useState([]);
 	const inputRef = useRef();
 	// const data = [
@@ -98,4 +98,4 @@ function User(){
   	);
 }
 
-export default User;
+export default Video;

@@ -8,6 +8,7 @@ import Sample from './Sample';
 import User from './api/user/User';
 import UserView from './api/user/UserView';
 import Video from './api/video/Video';
+import File from './common/file/File';
 
 function App() {
 	return (
@@ -20,7 +21,8 @@ function App() {
 						<Link to="/hello" className='nav-link'>hello</Link>
 						<Link to="/sample" className='nav-link'>샘플</Link>
 						<Link to="/user" className='nav-link'>사용자정보</Link>
-						<Link to="/video" className='nav-link'>영화정보</Link>	
+						<Link to="/video" className='nav-link'>영화정보</Link>
+						<Link to="/file" className='nav-link'>파일정보</Link>	
 						</li>
 					</ul>
 				</div>
@@ -29,10 +31,11 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/hello" element={<Hello />} />
+				<Route path="/sample" element={<Sample />} />
 				<Route path="/user" element={<User />} />
 				<Route path="/user/view" element={<UserView />} />
 				<Route path="/video" element={<Video />} />  
-				<Route path="/sample" element={<Sample />} />  
+				<Route path="/file" element={<File />} />  
 			</Routes>
 		</div> 
   	);

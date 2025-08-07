@@ -6,10 +6,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -24,6 +28,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
+import com.example.consumingrest.common.service.FileService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @RestController
 @RequestMapping("/common")
@@ -33,6 +41,17 @@ public class FileController {
 	
 	@Value("${file.upload-dir}")
 	private String uploadDir;
+	
+	@Autowired
+	private FileService fileService;
+	
+	
+	@PostMapping("/fileList")
+	public List list(@RequestBody Map paramMap) {
+		List<Map<String, Object>> list = fileService.list(paramMap); 
+		
+		return list;
+	}
 	
 	@PostMapping("/fileUpload")
 	public ResponseEntity<String> fileUpload(@RequestParam("file") MultipartFile files) throws Exception {
@@ -59,6 +78,73 @@ public class FileController {
 //			files.transferTo(new File(uploadDir + files.getOriginalFilename()));
 			files.transferTo(path.toFile());
 			
+//			List fileList = new ArrayList();
+//			fileList.add(files);
+			
+//			for(int i=0; i<fileList.size(); i++) {
+//				String filename = files.getOriginalFilename();
+				
+				Map file = new HashMap<>();
+				file.put("name", files.getOriginalFilename());
+				file.put("path", uploadDir);
+				file.put("extents", FilenameUtils.getExtension(files.getOriginalFilename()).toLowerCase()); 
+				
+				fileService.insert(file);
+//			}
+			
+			return ResponseEntity.ok("파일 업로드 성공...");
+		}catch (IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return ResponseEntity.status(500).body("파일 업로드 실패.....");
+		}
+	}
+	
+	@PostMapping("/api/fileUpload")
+	public ResponseEntity<String> fileUpload(@RequestParam("file") MultipartFile files, @RequestParam("params") String params) throws Exception {	
+		log.debug("============== 파일 업로드 =====================");
+		log.debug(files.toString());
+		log.debug("parammap:" + params);
+		
+		if(files.isEmpty()) {
+			return ResponseEntity.badRequest().body("파일을 선택하세요...");
+		}
+		
+		// 파일 저장 경로
+//		String uploadDir = "uploads/";
+		File uploadDirFile = new File(uploadDir);
+		
+		// 디렉토리가 없으면 디렉토리 생성
+		if(!uploadDirFile.exists()) {
+			uploadDirFile.mkdir();		
+		}
+		
+		// json데이터를 Map으로 변환
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> paramMap = objectMapper.readValue(params, new TypeReference<Map<String, Object>>() {});
+		
+		try {
+			String fullFilePath = uploadDir + files.getOriginalFilename();
+			Path path = Paths.get(fullFilePath).toAbsolutePath();
+			
+//			files.transferTo(new File(uploadDir + files.getOriginalFilename()));
+			files.transferTo(path.toFile());
+			
+//			List fileList = new ArrayList();
+//			fileList.add(files);
+			
+//			for(int i=0; i<fileList.size(); i++) {
+//				String filename = files.getOriginalFilename();
+				
+				Map file = new HashMap<>();
+				file.put("name", files.getOriginalFilename());
+				file.put("path", uploadDir);
+				file.put("extents", FilenameUtils.getExtension(files.getOriginalFilename()).toLowerCase()); 
+				file.put("api_compent", paramMap.get("apicompent"));
+				
+				fileService.insert(file);
+//			}
+			
 			return ResponseEntity.ok("파일 업로드 성공...");
 		}catch (IOException e) {
 			// TODO: handle exception
@@ -72,8 +158,6 @@ public class FileController {
 		// 파일경로지정
 //		Path filePath = Paths.get(uploadDir).resolve(map.get("filename").toString()).normalize();
 		Path filePath = Paths.get(uploadDir + map.get("filename"));
-		
-		log.debug(filePath.toString());
 		
 		if(!Files.exists(filePath)) {
 			// 파일이 없다면 404응답
