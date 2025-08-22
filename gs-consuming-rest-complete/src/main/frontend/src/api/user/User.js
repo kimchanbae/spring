@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from "axios";
 import Model from "/src/common/js/model";
 
@@ -80,7 +80,7 @@ function User(){
 
 	/*상세*/
 	const navigate = useNavigate();
-	function detail(userId){
+	const detail = (userId) => {
 		/*상세 페이지 이동 state 파라미터 셋팅*/
 		navigate('/user/view', {state : {id:userId}});
 	}
@@ -137,7 +137,7 @@ function User(){
 				<div className="row">
 					<ul>
 						<li className="w-50">{idx}</li>
-						<li className="w-100">{v.id}</li>
+						<li className="w-100" onClick={() => detail(v.id)}>{v.id}</li>
 						<li className="w-150 txt-left">{v.name}</li>
 						<li className="w-300 txt-left" onMouseEnter={() => handleMouseEnter(v.seq)} onMouseLeave={handleMouseLeave}>
 							{(isHoverd && v.seq === TooltipIdx && <div className="hover-content">{v.comment}</div>)}{v.comment}

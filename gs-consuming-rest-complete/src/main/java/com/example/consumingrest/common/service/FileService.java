@@ -23,8 +23,11 @@ public class FileService {
 		return fileMapper.one(paramMap);
 	}
 	
-	public void insert(Map paramMap) {
-		fileMapper.insert(paramMap);
+//	public void insert(Map paramMap) {
+	public Map<String, Object> insert(Map paramMap) {	
+		 fileMapper.insert(paramMap);
+		 
+		 return paramMap;
 	}
 	
 	public void delite(Map paramMap) {

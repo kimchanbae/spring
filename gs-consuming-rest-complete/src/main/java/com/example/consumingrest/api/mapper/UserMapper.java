@@ -18,4 +18,6 @@ public interface UserMapper {
 	
 	public void delite(Map paramMap);
 	
+	boolean deliteUser(String id);
+	
 }

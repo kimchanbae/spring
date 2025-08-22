@@ -43,4 +43,8 @@ public class UserService {
 		userMapper.delite(paramMap);
 	}
 	
+	public boolean deliteUser(String id) {
+		return userMapper.deliteUser(id);
+	}
+	
 }

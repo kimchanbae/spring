@@ -78,19 +78,13 @@ public class FileController {
 //			files.transferTo(new File(uploadDir + files.getOriginalFilename()));
 			files.transferTo(path.toFile());
 			
-//			List fileList = new ArrayList();
-//			fileList.add(files);
+				
+			Map file = new HashMap<>();
+			file.put("name", files.getOriginalFilename());
+			file.put("path", uploadDir);
+			file.put("extents", FilenameUtils.getExtension(files.getOriginalFilename()).toLowerCase()); 
 			
-//			for(int i=0; i<fileList.size(); i++) {
-//				String filename = files.getOriginalFilename();
-				
-				Map file = new HashMap<>();
-				file.put("name", files.getOriginalFilename());
-				file.put("path", uploadDir);
-				file.put("extents", FilenameUtils.getExtension(files.getOriginalFilename()).toLowerCase()); 
-				
-				fileService.insert(file);
-//			}
+			fileService.insert(file);
 			
 			return ResponseEntity.ok("파일 업로드 성공...");
 		}catch (IOException e) {
@@ -101,13 +95,17 @@ public class FileController {
 	}
 	
 	@PostMapping("/api/fileUpload")
-	public ResponseEntity<String> fileUpload(@RequestParam("file") MultipartFile files, @RequestParam("params") String params) throws Exception {	
+//	public ResponseEntity<String> fileUpload(@RequestParam("file") MultipartFile files, @RequestParam("params") String params) throws Exception {
+	public ResponseEntity<Map<String, Object>> fileUpload(@RequestParam("file") MultipartFile files, @RequestParam("params") String params) throws Exception {	
 		log.debug("============== 파일 업로드 =====================");
 		log.debug(files.toString());
 		log.debug("parammap:" + params);
 		
+		Map<String, Object> response = new HashMap<>();
+		
 		if(files.isEmpty()) {
-			return ResponseEntity.badRequest().body("파일을 선택하세요...");
+			response.put("message", "파일을 선택하세요...");
+			return ResponseEntity.badRequest().body(response);
 		}
 		
 		// 파일 저장 경로
@@ -130,26 +128,80 @@ public class FileController {
 //			files.transferTo(new File(uploadDir + files.getOriginalFilename()));
 			files.transferTo(path.toFile());
 			
-//			List fileList = new ArrayList();
-//			fileList.add(files);
-			
-//			for(int i=0; i<fileList.size(); i++) {
-//				String filename = files.getOriginalFilename();
 				
-				Map file = new HashMap<>();
-				file.put("name", files.getOriginalFilename());
-				file.put("path", uploadDir);
-				file.put("extents", FilenameUtils.getExtension(files.getOriginalFilename()).toLowerCase()); 
-				file.put("api_compent", paramMap.get("apicompent"));
-				
-				fileService.insert(file);
-//			}
+			Map file = new HashMap<>();
+			file.put("name", files.getOriginalFilename());
+			file.put("path", uploadDir);
+			file.put("extents", FilenameUtils.getExtension(files.getOriginalFilename()).toLowerCase()); 
+			file.put("api_compent", paramMap.get("apicompent"));
 			
-			return ResponseEntity.ok("파일 업로드 성공...");
+			Map<String, Object> fileMap = fileService.insert(file);
+			
+			response.put("message", "파일 업로드 성공...");
+			response.put("fileMap", fileMap);
+			return ResponseEntity.ok(response);
 		}catch (IOException e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return ResponseEntity.status(500).body("파일 업로드 실패.....");
+			
+			response.put("message", "파일 업로드 실패.....");
+			response.put("status", "500");
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+	
+	@PostMapping("/api/multiFileUpload")
+	public ResponseEntity<Map<String, Object>> fileUpload(@RequestParam("files") MultipartFile[] files, @RequestParam("params") String params) throws Exception {	
+		log.debug("============== 파일 업로드 =====================");
+		log.debug(files.toString());
+		log.debug("parammap:" + params);
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		// 파일 저장 경로
+//		String uploadDir = "uploads/";
+		File uploadDirFile = new File(uploadDir);
+		
+		// 디렉토리가 없으면 디렉토리 생성
+		if(!uploadDirFile.exists()) {
+			uploadDirFile.mkdir();		
+		}
+		
+		// json데이터를 Map으로 변환
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> paramMap = objectMapper.readValue(params, new TypeReference<Map<String, Object>>() {});
+		
+		try {
+			Map<String, Object> fileMap = new HashMap<>();
+			
+			for(MultipartFile file : files) {
+				if(!file.isEmpty()) {
+					String fullFilePath = uploadDir + file.getOriginalFilename();
+					Path path = Paths.get(fullFilePath).toAbsolutePath();
+			
+					// 파일저장
+					file.transferTo(path.toFile());
+				
+					Map param = new HashMap<>();
+					param.put("name", file.getOriginalFilename());
+					param.put("path", uploadDir);
+					param.put("extents", FilenameUtils.getExtension(file.getOriginalFilename()).toLowerCase()); 
+					param.put("api_compent", paramMap.get("apicompent")); 
+					
+					fileMap = fileService.insert(param);
+				}
+			}
+			
+			response.put("message", "파일 업로드 성공...");
+			response.put("fileMap", fileMap);
+			return ResponseEntity.ok(response);
+		}catch (IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			
+			response.put("message", "파일 업로드 실패.....");
+			response.put("status", "500");
+			return ResponseEntity.badRequest().body(response);
 		}
 	}
 	

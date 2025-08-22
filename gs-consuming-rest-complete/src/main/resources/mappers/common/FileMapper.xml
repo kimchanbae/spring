@@ -15,6 +15,9 @@
     </select>
     
     <insert id="insert" parameterType="hashmap">
+        <selectKey keyProperty="seq" resultType="int" order="AFTER">
+        SELECT CURRVAL('file_seq')
+        </selectKey>
         INSERT INTO file
         	(name, 
         	 path, 

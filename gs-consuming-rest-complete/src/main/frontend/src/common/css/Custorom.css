@@ -39,7 +39,7 @@ ul{list-style:none;}
 .det-div {max-width: 1200px; width: 1000px; border: 1px solid #ddd; display: grid; background-color: #f5f5f5; padding-right: 20px;}
 .det-header{font-weight: bold; float: left; width: 10%;}
 .det-cont{float: left; width: 90%; text-align: left;}
-.det-div button{cursor:pointer;}
+.det-div button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:rgb(136, 136, 206); margin-left: 4px;}
 
 /* 버튼 */
 .btn-grp{display:inline-block; margin-top:0.3cm;}
@@ -54,6 +54,12 @@ ul{list-style:none;}
 .sch-left li{float: left; margin-right: 8px;}
 .sch-btn{float: right; margin-right: 8px;}
 .sch-btn button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:rgb(234, 107, 130);}
+
+/* 파일 */
+.file-div{display: grid; width: 70%; height: 80px; overflow-y: auto; border: 1px solid #c3d1ed; background-color: white;}
+.file-div ul{margin-top: 4px;}
+.file-btn{margin-top: 3px;}
+.file-btn button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:rgb(228, 110, 134);}
 
 /*모달*/
 /*팝업 배경*/

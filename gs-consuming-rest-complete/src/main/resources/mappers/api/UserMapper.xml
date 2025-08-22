@@ -3,26 +3,28 @@
 <mapper namespace="com.example.consumingrest.api.mapper.UserMapper">
 
     <select id="list" resultType="hashmap">
-        SELECT 	seq,
-        		id,
-        		name,
-        		comment,
-        		TO_CHAR(reg_date, 'YYYY-MM-DD HH24:MI:SS') AS reg_date 
-          FROM member
-         WHERE use_yn = 'Y'
+        SELECT 	A.seq,
+        		A.id,
+        		A.name,
+        		A.comment,
+        		TO_CHAR(A.reg_date, 'YYYY-MM-DD HH24:MI:SS') AS reg_date, 
+        		(SELECT name FROM file WHERE seq = A.file_seq) AS file_name
+          FROM member A
+         WHERE A.use_yn = 'Y'
          <if test='id != null and id != ""'>
-         AND id LIKE '%' || #{id} || '%'
+         AND A.id LIKE '%' || #{id} || '%'
          </if> 
          <if test='name != null and name != ""'>
-         AND name LIKE '%' || #{name} || '%'
+         AND A.name LIKE '%' || #{name} || '%'
          </if>
-         ORDER BY reg_date DESC
+         ORDER BY A.reg_date DESC
     </select>
     
     <select id="one" parameterType="hashmap" resultType="map">
-        SELECT * 
-          FROM member 
-         WHERE id = #{id}
+        SELECT 	A.*,
+        		(SELECT name FROM file WHERE seq = A.file_seq) AS file_name 
+          FROM member A 
+         WHERE A.id = #{id}
     </select>
     
     <insert id="insert" parameterType="hashmap">
@@ -31,24 +33,41 @@
         	 name, 
         	 comment, 
         	 reg_date,
-        	 use_yn) 
+        	 use_yn,
+        	 <if test='file_seq != null and file_seq != ""'>
+        	 file_seq
+        	 </if>
+        	 ) 
         VALUES
         	(#{id}, 
         	 #{name}, 
         	 #{comment}, 
         	 NOW(),
-        	 'Y')
+        	 'Y',
+        	 <if test='file_seq != null and file_seq != ""'>
+        	 #{file_seq}
+        	 </if>
+        	 )
     </insert>
     
     <update id="update" parameterType="hashmap">
         UPDATE member SET
         	name = #{name},
         	comment = #{comment}, 
-        	upd_date = NOW()
+        	upd_date = NOW(),
+        	<if test='file_seq != null and file_seq != ""'>
+        	file_seq = #{file_seq}
+        	</if>
         WHERE id = #{id}  
     </update>
     
     <update id="delite" parameterType="hashmap">
+        UPDATE member SET
+        	use_yn = 'N'
+        WHERE id = #{id}  
+    </update>
+    
+    <update id="deliteUser" parameterType="String">
         UPDATE member SET
         	use_yn = 'N'
         WHERE id = #{id}  
