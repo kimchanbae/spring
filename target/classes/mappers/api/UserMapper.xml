@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.consumingrest.api.mapper.UserMapper">
+
+    <select id="list" resultType="hashmap">
+        SELECT 	A.seq,
+        		A.id,
+        		A.name,
+        		A.comment,
+        		TO_CHAR(A.reg_date, 'YYYY-MM-DD HH24:MI:SS') AS reg_date,
+        		A.file_seq, 
+        		(SELECT name FROM file WHERE seq = A.file_seq) AS file_name
+          FROM member A
+         WHERE A.use_yn = 'Y'
+         <if test='id != null and id != ""'>
+         AND A.id LIKE '%' || #{id} || '%'
+         </if> 
+         <if test='name != null and name != ""'>
+         AND A.name LIKE '%' || #{name} || '%'
+         </if>
+         ORDER BY A.reg_date DESC
+    </select>
+    
+    <select id="one" parameterType="hashmap" resultType="map">
+        SELECT 	A.*,
+        		(SELECT name FROM file WHERE seq = A.file_seq) AS file_name 
+          FROM member A 
+         WHERE A.id = #{id}
+    </select>
+    
+    <insert id="insert" parameterType="hashmap">
+        INSERT INTO member
+        	(id, 
+        	 name, 
+        	 comment, 
+        	 reg_date,
+        	 use_yn,
+        	 <if test='file_seq != null and file_seq != ""'>
+        	 file_seq
+        	 </if>
+        	 ) 
+        VALUES
+        	(#{id}, 
+        	 #{name}, 
+        	 #{comment}, 
+        	 NOW(),
+        	 'Y',
+        	 <if test='file_seq != null and file_seq != ""'>
+        	 #{file_seq}
+        	 </if>
+        	 )
+    </insert>
+    
+    <update id="update" parameterType="hashmap">
+        UPDATE member SET
+        	name = #{name},
+        	comment = #{comment}, 
+        	upd_date = NOW(),
+        	<if test='file_seq != null and file_seq != ""'>
+        	file_seq = #{file_seq}
+        	</if>
+        WHERE id = #{id}  
+    </update>
+    
+    <update id="delite" parameterType="hashmap">
+        UPDATE member SET
+        	use_yn = 'N'
+        WHERE id = #{id}  
+    </update>
+    
+    <update id="deliteUser" parameterType="String">
+        UPDATE member SET
+        	use_yn = 'N'
+        WHERE id = #{id}  
+    </update>
+    
+</mapper>

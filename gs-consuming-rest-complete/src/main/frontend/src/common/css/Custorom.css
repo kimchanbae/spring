@@ -1,0 +1,114 @@
+.nav-link{margin-right: 0.5cm; text-decoration-line:none; cursor:pointer;}
+a{text-decoration-line:none; cursor:pointer;}
+div{font-family: Arial, sans-serif;}
+ul{list-style:none;}
+
+.w-50{width:50px;}
+.w-60{width:60px;}
+.w-100{width:100px;}
+.w-150{width:150px;}
+.w-300{width:300px;}
+.w-400{width:400px;}
+.w-500{width:500px;}
+.w-600{width:600px;}
+
+.txt-left{text-align: left;}
+
+.main li {width:400px;}
+
+.top-div{text-align:left;}
+.top-ul-list{text-align:center; padding-top: 20px;}
+
+.title{max-width: 80%; width: 63%; font-weight: bold; display: flex; font-size: 20px;}
+.title li{float: left;}
+.grd-count{margin-left: 12px; font-size: 16px; padding-top: 0.4vh; color: #00f;}
+
+/* 목록 */
+.div-item{max-width: 80%; width: 60%; max-height: 350px; margin-top:0.4cm; border: 1px solid #ddd; height: 300px; overflow-y: auto; overflow-x: auto;}
+.header{background-color: #f5f5f5; display: grid; font-weight: bold; border-bottom: 1px solid #ccc; grid-template-columns: 1fr;}
+.header ul{display: flex;}
+.header li{float: left; word-break: break-word; border-right: 1px solid #bec1c7;}
+.header li:last-child{border-right: none; flex: 1;}
+.row{display: grid; border-bottom: 1px solid #bec1c7; grid-template-columns: 1fr; background-color: #e8e9eb;}
+.row ul{display: flex;}
+.row li{float: left; word-break: break-word; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-right: 1px solid #b3c2df;}
+.row li:last-child{border-right: none; flex: 1;}
+.div-item button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:rgb(136, 136, 206);}
+
+/* 상세 */
+.det-div {max-width: 1200px; width: 1000px; border: 1px solid #ddd; display: grid; background-color: #f5f5f5; padding-right: 20px;}
+.det-header{font-weight: bold; float: left; width: 10%;}
+.det-cont{float: left; width: 90%; text-align: left;}
+.det-div button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:rgb(136, 136, 206); margin-left: 4px;}
+
+/* 버튼 */
+.btn-grp{display:inline-block; margin-top:0.3cm;}
+.btn-grp ul{text-align:center; list-style:none; height:6px;}
+.btn-grp li{float:left; margin-right:0.4cm;}
+.btn-grp button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:blue; padding: 3px 6px;}
+
+/* 검색조건 */
+.sch-form{max-width: 80%; width: 60%; border: 1px solid #ddd; font-family: Arial, sans-serif;}
+.sch-div{background-color: #f5f5f5; display: grid; font-weight: bold; border-bottom: 1px solid #ccc;}
+.sch-left{float: left;}
+.sch-left li{float: left; margin-right: 8px;}
+.sch-btn{float: right; margin-right: 8px;}
+.sch-btn button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:rgb(234, 107, 130);}
+
+/* 파일 */
+.file-div{display: grid; width: 70%; height: 80px; overflow-y: auto; border: 1px solid #c3d1ed; background-color: white;}
+.file-div ul{margin-top: 4px;}
+.file-btn{margin-top: 3px;}
+.file-btn button{cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:rgb(228, 110, 134);}
+
+/*모달*/
+/*팝업 배경*/
+.modal {
+	position: fixed;
+  	top: 0;
+  	left: 0;
+  	width: 100%;
+  	height: 100%;
+  	background: rgba(0, 0, 0, 0.5);
+  	display: flex;
+  	justify-content: center;
+  	align-items: center;
+}
+/*팝업*/
+.modal .modal_popup {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 20px;
+	  width:max-content;
+    /* width: 1000px; */
+    max-width: 1400px;
+}
+/*팝업 닫기 버튼*/
+.modal .modal_popup .close_btn {
+    display: block;
+    padding: 6px 10px;
+    background-color: rgb(116, 0, 0);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+/* 마우스 오버 툴팁 */
+.hover-content {
+  position: absolute; /* 또는 relative */
+  background-color: lightyellow;
+  padding: 5px;
+  border: 1px solid gray;
+  z-index: 1; /* 다른 요소 위에 표시되도록 설정 */
+}
+
+.sample-cont{max-width: 1200px; width: 1000px; min-height: 1000px; vertical-align: middle;}
+.sample-left{float: left; width: 100px; max-width: 120px;}
+.sample-div{float: left; margin-left: 8px; text-align: left;}
+.sample-div button{margin-left: 4.5px; cursor:pointer; border-radius: 5px; color: #fff; border: none; background-color:rgb(136, 136, 206);}
