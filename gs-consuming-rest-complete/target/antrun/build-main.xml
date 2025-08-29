@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="maven-antrun-" default="main">
-  <target name="main">
-    <mkdir dir="C:\Users\kimchanbae\git\spring\gs-consuming-rest-complete\target/classes/public" />
-    <copy todir="C:\Users\kimchanbae\git\spring\gs-consuming-rest-complete\target/classes/public">
-      <fileset dir="C:\Users\kimchanbae\git\spring\gs-consuming-rest-complete/src/main/frontend/build" />
-    </copy>
-  </target>
-</project>
