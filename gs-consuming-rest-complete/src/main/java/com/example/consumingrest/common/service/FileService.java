@@ -19,6 +19,10 @@ public class FileService {
 		return fileMapper.list(paramMap);
 	}
 	
+	public List apiFileList(Map paramMap) {
+		return fileMapper.apiFileList(paramMap);
+	}
+	
 	public Map<String, Object> one(Map paramMap) {
 		return fileMapper.one(paramMap);
 	}
@@ -30,8 +34,8 @@ public class FileService {
 		 return paramMap;
 	}
 	
-	public void delite(Map paramMap) {
-		fileMapper.delite(paramMap);
+	public void delete(String name) {
+		fileMapper.delete(name);
 	}
 	
 }

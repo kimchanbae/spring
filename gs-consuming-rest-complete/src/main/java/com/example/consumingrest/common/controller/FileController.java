@@ -18,13 +18,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
@@ -34,7 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController
-@RequestMapping("/common")
+@RequestMapping("/common/file")
 public class FileController {
 
 	private static final Logger log = LoggerFactory.getLogger(FileController.class);
@@ -49,6 +53,13 @@ public class FileController {
 	@PostMapping("/fileList")
 	public List list(@RequestBody Map paramMap) {
 		List<Map<String, Object>> list = fileService.list(paramMap); 
+		
+		return list;
+	}
+	
+	@PostMapping("/api/fileList")
+	public List apiFileList(@RequestBody Map paramMap) {
+		List<Map<String, Object>> list = fileService.apiFileList(paramMap); 
 		
 		return list;
 	}
@@ -230,6 +241,29 @@ public class FileController {
 				.contentType(mediaType)
 				.headers(headers)
 				.body(resource);
+	}
+	
+	@DeleteMapping("/{fileName}")
+	public ResponseEntity<String> delete(@PathVariable String fileName){
+		try {
+			// 파일 저장 경로 + 파일명
+			File file = new File(uploadDir + fileName);
+			
+			if(file.exists()) {
+				if(file.delete()) {
+					fileService.delete(fileName);
+					
+					return ResponseEntity.ok(fileName + " 파일 삭제성공");
+				}else {
+					return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(fileName + " 파일 삭제실패");
+				}
+			}else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(fileName + " 파일이 존재하지 않음");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("에러:" + e.getMessage());
+		}
 	}
 	
 }

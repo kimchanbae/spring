@@ -7,7 +7,8 @@
         		A.id,
         		A.name,
         		A.comment,
-        		TO_CHAR(A.reg_date, 'YYYY-MM-DD HH24:MI:SS') AS reg_date, 
+        		TO_CHAR(A.reg_date, 'YYYY-MM-DD HH24:MI:SS') AS reg_date,
+        		A.file_seq, 
         		(SELECT name FROM file WHERE seq = A.file_seq) AS file_name
           FROM member A
          WHERE A.use_yn = 'Y'

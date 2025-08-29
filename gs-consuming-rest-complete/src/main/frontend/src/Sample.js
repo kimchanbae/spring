@@ -23,7 +23,7 @@ function Sample(){
      	})
 
 		/* 파일조회 */
-		axios.post("http://localhost:9000/common/fileList", {})
+		axios.post("http://localhost:9000/common/file/fileList", {})
 		.then(res => {
 			setFileData(res.data);
        	})
@@ -66,8 +66,8 @@ function Sample(){
 
 		setUploadStatus('파일 업로드중....');
 		
-		// const response = await axios.post("http://localhost:9000/common/fileUpload", fileData);
-		await axios.post("http://localhost:9000/common/fileUpload", fileData)
+		// const response = await axios.post("http://localhost:9000/common/file/fileUpload", fileData);
+		await axios.post("http://localhost:9000/common/file/fileUpload", fileData)
 		.then(res => {
 			alert(res.data);
 		})

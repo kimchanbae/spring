@@ -4,11 +4,11 @@ const FileDownload = async (filename) => {
     const data = {filename:filename};
 
     try{
-        // const response = await fetch("http://localhost:9000/common/fileDownload", 
+        // const response = await fetch("http://localhost:9000/common/file/fileDownload", 
         // 	{method:'post', headers:{"Content-Type":"application/json"}, body: JSON.stringify(data)}
         // );
 
-        const response = await axios.post("http://localhost:9000/common/fileDownload", data, {responseType:"blob"})
+        const response = await axios.post("http://localhost:9000/common/file/fileDownload", data, {responseType:"blob"})
         
         // fatch로 호출시
         // if(!response.ok){

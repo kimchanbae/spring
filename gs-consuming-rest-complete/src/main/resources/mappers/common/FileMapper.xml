@@ -8,6 +8,13 @@
          ORDER BY reg_date DESC
     </select>
     
+    <select id="apiFileList" resultType="hashmap">
+        SELECT * 
+          FROM file
+         WHERE seq = #{file_seq}
+         ORDER BY reg_date DESC
+    </select>
+    
     <select id="one" parameterType="hashmap" resultType="map">
         SELECT * 
           FROM file 
@@ -36,7 +43,7 @@
         	 NOW())
     </insert>
     
-    <update id="delite" parameterType="hashmap">
+    <update id="delete" parameterType="String">
         DELETE FROM file
         WHERE name = #{name}  
     </update>

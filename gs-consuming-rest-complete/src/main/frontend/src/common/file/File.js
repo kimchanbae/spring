@@ -31,7 +31,7 @@ function File(){
 
     /* 검색조건 조회 */
     const search = () => {
-        axios.post("http://localhost:9000/common/fileList", searchParames)
+        axios.post("http://localhost:9000/common/file/fileList", searchParames)
         .then(res => {
             setRowCount(res.data.length);
             setData(res.data);

@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
 import FileDownload from "../../common/js/FileDownload";
+import FileDiv from "../../common/file/FileDiv";
 
 function User(){
 	const location = useLocation();
@@ -9,8 +10,9 @@ function User(){
 	const navigate = useNavigate();
 	const [data, setData] = useState([]);
 	// const [files, setFiles] = useState(null);	/* 파일정보 객체 */
-	const [files, setFiles] = useState([]);			/* 파일정보 객체 */
-	const fileInputRef = useRef(null);			/* 파일 input */
+	// const [files, setFiles] = useState([]);			/* 등록 파일정보 객체 */
+	const [uploadfiles, setUploadFiles] = useState([]);			/* 파일정보 객체 */
+	// const fileInputRef = useRef(null);				/* 파일 input */
 	
 	useEffect(() => {
 		/*axios.get("http://localhost:9000/api/user/view?id=" + userData.id)*/
@@ -19,6 +21,8 @@ function User(){
 			setData([res.data]);	/* 사용자정보 조회 객체 */
 			
 			setInptus(res.data);	/* 입력폼 사용자정보 객체 */
+
+			// fileSearch();
 		})
   	},[])
 
@@ -45,7 +49,8 @@ function User(){
 		e.preventDefault();		/* 페이지 리로드 방지 */
 		
 		if(window.confirm("저장하시겠습니까?")){
-			if(files){
+			// if(files){
+			if(uploadfiles.length > 0){
 				fileUpload(e);
 			}else{
 				save(e);
@@ -63,18 +68,17 @@ function User(){
 		// fileData.append('file', files);
 
 		/* 다중 */
-		files.forEach((file) => {
+		// files.forEach((file) => {
+		uploadfiles.forEach((file) => {
 			fileData.append("files", file);
 		})
 
 		inptus.apicompent = "user";
 		fileData.append('params', JSON.stringify(inptus));
 
-		// await axios.post("http://localhost:9000/common/api/fileUpload", fileData)
-		await axios.post("http://localhost:9000/common/api/multiFileUpload", fileData)
+		// await axios.post("http://localhost:9000/common/file/api/fileUpload", fileData)
+		await axios.post("http://localhost:9000/common/file/api/multiFileUpload", fileData)
 		.then(res => {
-			console.log("res:" + JSON.stringify(res));
-			
 			save(e, res.data.fileMap);
 		})
 		.catch(error => {
@@ -83,6 +87,7 @@ function User(){
 		})
 	}
 
+	const [schFileData, setSchFileData] = useState(userData.file_seq);
 	/* 등록,수정 실행 */ 
 	const save = (e, fileMap) => {
 		const formData = new FormData(e.target);
@@ -104,10 +109,13 @@ function User(){
 			if(res.data.message != null && res.data.message != ""){
 				alert(res.data.message);
 			}else{
+				// fileUpload('user');
 				alert("사용자 정보 저장 성공~~~~~~");
+
+				setSchFileData((prev) => fileMap.seq);
 			}
 			
-			list();
+			// list();
 		})
 		.catch(error => {
 			alert("시용자정보 등록 오류\n관리자에게 문의하세요.\n" + error);
@@ -142,18 +150,28 @@ function User(){
 	}
 
 	/* 파일 체인지 */
-	const fileChange = (e) => {
+	// const fileChange = (e) => {
 		/* 단일 */
 		// setFiles(e.target.files[0]);
 		
-		const selectedFiles = Array.from(e.target.files);
-		setFiles((prev) => [...prev, ...selectedFiles]);
+		// const selectedFiles = Array.from(e.target.files);
+		// setFiles((prev) => [...prev, ...selectedFiles]);
+	// }
+
+	// const fileSearch = () => {
+	// 	setSchFileData.file_seq = userData.file_seq;
+	// }
+
+	/* 부모창으로 전달된 파일 정보 */
+	const handleFileChange = (file) => {
+		// console.log("부모전달 파일 정보:", file);
+		setUploadFiles((prev) => [...prev, ...file]);
 	}
 
 	/* 파일추가 클릭 */	
-	const fileDivClick = () => {
-		fileInputRef.current.click();
-	}
+	// const fileDivClick = () => {
+	// 	fileInputRef.current.click();
+	// }
 
 	/* 목록이동 */
 	const list = () => {
@@ -183,9 +201,10 @@ function User(){
 					<ul>
 						<li className="det-header">첨부파일</li>
 						<li className="det-cont">
+							<FileDiv onFileChange={handleFileChange} schFileData={schFileData} />
 							{/* {v.file_name === null || v.file_name === "" || userData.id ==="" ? null : 
 							<button type="button" onClick={() => FileDownload(v.file_name)}>다운로드</button>}	 */}
-							<div className="file-div">
+							{/* <div className="file-div">
 								{data.map((v) =>
 								<ul>
 									<li>
@@ -204,7 +223,7 @@ function User(){
 							<div className="file-btn">
 								<button type="button" onClick={fileDivClick}>파일추가</button>
 								<input ref={fileInputRef} type="file" multiple onChange={fileChange} style={{display:'none'}} />
-							</div>	
+							</div>	 */}
 						</li>
 					</ul>
 					{/* )} */}

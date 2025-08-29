@@ -80,9 +80,9 @@ function User(){
 
 	/*상세*/
 	const navigate = useNavigate();
-	const detail = (userId) => {
+	const detail = (userId, file_seq) => {
 		/*상세 페이지 이동 state 파라미터 셋팅*/
-		navigate('/user/view', {state : {id:userId}});
+		navigate('/user/view', {state : {id:userId, file_seq:file_seq}});
 	}
 
 	const [isHoverd, setIsHoverd] = useState(false);	/* 마우스 오버시,벗어났을때 객체 */
@@ -142,7 +142,7 @@ function User(){
 						<li className="w-300 txt-left" onMouseEnter={() => handleMouseEnter(v.seq)} onMouseLeave={handleMouseLeave}>
 							{(isHoverd && v.seq === TooltipIdx && <div className="hover-content">{v.comment}</div>)}{v.comment}
 						</li>
-						<li className="w-100"><button onClick={() => detail(v.id)}>상세(view)</button></li>
+						<li className="w-100"><button onClick={() => detail(v.id, v.file_seq)}>상세(view)</button></li>
 						<li className="w-100"><button onClick={() => model(v.id)}>상세(팝업)</button></li>
 						<li>{v.reg_date}</li>
 					</ul>
