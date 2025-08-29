@@ -243,7 +243,7 @@ public class FileController {
 				.body(resource);
 	}
 	
-	@DeleteMapping("/{fileName}")
+	@DeleteMapping("/{fileName}") 
 	public ResponseEntity<String> delete(@PathVariable String fileName){
 		try {
 			// 파일 저장 경로 + 파일명
