@@ -164,7 +164,7 @@ function User(){
 
 	/* 부모창으로 전달된 파일 정보 */
 	const handleFileChange = (file) => {
-		// console.log("부모전달 파일 정보:", file);
+		console.log("부모전달 파일 정보:", file);
 		setUploadFiles((prev) => [...prev, ...file]);
 	}
 

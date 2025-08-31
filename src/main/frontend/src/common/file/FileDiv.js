@@ -87,6 +87,8 @@ const FileDiv = ({onFileChange, schFileData}) => {
             if(fileInputRef.current){
                 fileInputRef.current.value = "";
             }
+
+            onFileChange(files);
         } catch (error) {
             alert("삭제중 오류발생:" + error.response.data);
         }

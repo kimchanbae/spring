@@ -26,5 +26,5 @@ yarn-error.log*
 .settings
 .classpath
 src/test/**
-target/**
-uploads/**
+target/
+uploads/
