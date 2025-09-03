@@ -1,28 +1,21 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
-import FileDownload from "../../common/js/FileDownload";
-import FileDiv from "../../common/file/FileDiv";
+import FileCompent from "../../common/file/FileCompent";
 
 function User(){
 	const location = useLocation();
 	const userData = {...location.state };
 	const navigate = useNavigate();
 	const [data, setData] = useState([]);
-	// const [files, setFiles] = useState(null);	/* 파일정보 객체 */
-	// const [files, setFiles] = useState([]);			/* 등록 파일정보 객체 */
 	const [uploadfiles, setUploadFiles] = useState([]);			/* 파일정보 객체 */
-	// const fileInputRef = useRef(null);				/* 파일 input */
 	
 	useEffect(() => {
 		/*axios.get("http://localhost:9000/api/user/view?id=" + userData.id)*/
 		axios.post("http://localhost:9000/api/user/view", userData)
 		.then(res => {
 			setData([res.data]);	/* 사용자정보 조회 객체 */
-			
 			setInptus(res.data);	/* 입력폼 사용자정보 객체 */
-
-			// fileSearch();
 		})
   	},[])
 
@@ -45,15 +38,24 @@ function User(){
 	}
 	
 	/*등록, 수정*/
+	const [fileUploadCnt, setFileUploadCnt] = useState(0);
+	const [saveData, setSaveData] = useState([]);
 	const onSubmit = async (e) => {
 		e.preventDefault();		/* 페이지 리로드 방지 */
 		
 		if(window.confirm("저장하시겠습니까?")){
-			// if(files){
+			const formData = new FormData(e.target);
+			const data = Object.fromEntries(formData.entries());
+
+			setSaveData(data);
+			
 			if(uploadfiles.length > 0){
-				fileUpload(e);
+				// fileUpload(e);
+
+				setFileUploadCnt(fileUploadCnt+1);
 			}else{
-				save(e);
+				// save(e);
+				save(data);
 			}
 		}else{
 			return;
@@ -61,38 +63,39 @@ function User(){
 	}
 
 	/* 파일업로드 */
-	const fileUpload = async (e) => {
-		const fileData = new FormData();
+	// const fileUpload = async (e) => {
+	// 	const fileData = new FormData();
 		
 		/* 단일 */
 		// fileData.append('file', files);
 
 		/* 다중 */
 		// files.forEach((file) => {
-		uploadfiles.forEach((file) => {
-			fileData.append("files", file);
-		})
+		// uploadfiles.forEach((file) => {
+		// 	fileData.append("files", file);
+		// })
 
-		inptus.apicompent = "user";
-		fileData.append('params', JSON.stringify(inptus));
+		// inptus.apicompent = "user";
+		// fileData.append('params', JSON.stringify(inptus));
 
 		// await axios.post("http://localhost:9000/common/file/api/fileUpload", fileData)
-		await axios.post("http://localhost:9000/common/file/api/multiFileUpload", fileData)
-		.then(res => {
-			save(e, res.data.fileMap);
-		})
-		.catch(error => {
-			alert(error.response.data + "\n" + error);
-			console.error("오류:", error);
-		})
-	}
+	// 	await axios.post("http://localhost:9000/common/file/api/multiFileUpload", fileData)
+	// 	.then(res => {
+	// 		save(e, res.data.fileMap);
+	// 	})
+	// 	.catch(error => {
+	// 		alert(error.response.data + "\n" + error);
+	// 		console.error("오류:", error);
+	// 	})
+	// }
 
-	const [schFileData, setSchFileData] = useState(userData.file_seq);
+	const [schFileSeq, setSchFileSeq] = useState(userData.file_seq);	/* 파일시퀀스 번호 조회 객체 */
 	/* 등록,수정 실행 */ 
-	const save = (e, fileMap) => {
-		const formData = new FormData(e.target);
-		const data = Object.fromEntries(formData.entries());
-		
+	// const save = (e, fileMap) => {
+	const save = (data, fileMap) => {	
+		// const formData = new FormData(e.target);
+		// const data = Object.fromEntries(formData.entries());
+
 		let saveMode="create";
 		if(userData.id != ""){
 			saveMode="update";
@@ -109,10 +112,11 @@ function User(){
 			if(res.data.message != null && res.data.message != ""){
 				alert(res.data.message);
 			}else{
-				// fileUpload('user');
-				alert("사용자 정보 저장 성공~~~~~~");
+				alert("사용자 정보가 저장 되었습니다.");
 
-				setSchFileData((prev) => fileMap.seq);
+				if(fileMap != null && fileMap != ""){
+					setSchFileSeq((prev) => fileMap.seq);
+				}
 			}
 			
 			// list();
@@ -149,29 +153,21 @@ function User(){
 		}
 	}
 
-	/* 파일 체인지 */
-	// const fileChange = (e) => {
-		/* 단일 */
-		// setFiles(e.target.files[0]);
+	/* 파일업로드완료 후 콜백 */
+	const handleUploadComplete = useCallback((fileMap) => {
+		console.log("파일업로드후 데이터:" + fileMap);
 		
-		// const selectedFiles = Array.from(e.target.files);
-		// setFiles((prev) => [...prev, ...selectedFiles]);
-	// }
-
-	// const fileSearch = () => {
-	// 	setSchFileData.file_seq = userData.file_seq;
-	// }
+		setFileUploadCnt(0);
+		save(saveData, fileMap);
+	})
 
 	/* 부모창으로 전달된 파일 정보 */
-	const handleFileChange = (file) => {
-		console.log("부모전달 파일 정보:", file);
-		setUploadFiles((prev) => [...prev, ...file]);
-	}
+	const handleFileChange = (files) => {
+		// console.log("부모전달 파일 정보:", files);
 
-	/* 파일추가 클릭 */	
-	// const fileDivClick = () => {
-	// 	fileInputRef.current.click();
-	// }
+		// setUploadFiles((prev) => [...prev, ...file]);
+		setUploadFiles(files);
+	}
 
 	/* 목록이동 */
 	const list = () => {
@@ -197,40 +193,12 @@ function User(){
 						<li className="det-header">내용</li>
 						<li className="det-cont"><textarea name="comment" value={inptus.comment} onChange={onChange} rows="10" cols="50" /></li>
 					</ul>
-					{/* {data.map((v) => */}
 					<ul>
 						<li className="det-header">첨부파일</li>
 						<li className="det-cont">
-							<FileDiv onFileChange={handleFileChange} schFileData={schFileData} />
-							{/* {v.file_name === null || v.file_name === "" || userData.id ==="" ? null : 
-							<button type="button" onClick={() => FileDownload(v.file_name)}>다운로드</button>}	 */}
-							{/* <div className="file-div">
-								{data.map((v) =>
-								<ul>
-									<li>
-										{v.file_name}
-										{v.file_name === null || v.file_name === "" || userData.id ==="" ? null : 
-										<button type="button" onClick={() => FileDownload(v.file_name)}>다운로드</button>}
-									</li>
-								</ul>
-								)}
-								{files.map((file) => (
-								<ul>
-									<li>{file.name}</li>
-								</ul>
-								))}	
-							</div>
-							<div className="file-btn">
-								<button type="button" onClick={fileDivClick}>파일추가</button>
-								<input ref={fileInputRef} type="file" multiple onChange={fileChange} style={{display:'none'}} />
-							</div>	 */}
+							<FileCompent onFileChange={handleFileChange} onUploadComplete={handleUploadComplete} schFileSeq={schFileSeq} fileUploadCnt={fileUploadCnt} />
 						</li>
 					</ul>
-					{/* )} */}
-					{/* <ul>
-						<li className="det-header">파일</li>
-						<li className="det-cont"><input type="file" multiple onChange={fileChange} /></li>
-					</ul> */}
 				</div>
 				<div className="btn-grp">
 					<ul>

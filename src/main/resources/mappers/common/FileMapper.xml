@@ -32,6 +32,7 @@
         	 <if test='api_compent != null and api_compent != ""'>
         	 api_compent,
         	 </if>
+        	 size,
         	 reg_date) 
         VALUES
         	(#{name}, 
@@ -39,7 +40,8 @@
         	 #{extents},
         	 <if test='api_compent != null and api_compent != ""'>
         	 #{api_compent},
-        	 </if> 
+        	 </if>
+        	 #{size}, 
         	 NOW())
     </insert>
     

@@ -164,7 +164,7 @@ public class FileController {
 	@PostMapping("/api/multiFileUpload")
 	public ResponseEntity<Map<String, Object>> fileUpload(@RequestParam("files") MultipartFile[] files, @RequestParam("params") String params) throws Exception {	
 		log.debug("============== 파일 업로드 =====================");
-		log.debug(files.toString());
+		log.debug("파일 파라미터" + files.toString());
 		log.debug("parammap:" + params);
 		
 		Map<String, Object> response = new HashMap<>();
@@ -192,12 +192,13 @@ public class FileController {
 			
 					// 파일저장
 					file.transferTo(path.toFile());
-				
+					
 					Map param = new HashMap<>();
 					param.put("name", file.getOriginalFilename());
 					param.put("path", uploadDir);
 					param.put("extents", FilenameUtils.getExtension(file.getOriginalFilename()).toLowerCase()); 
-					param.put("api_compent", paramMap.get("apicompent")); 
+					param.put("api_compent", paramMap.get("apicompent"));
+					param.put("size", file.getSize());
 					
 					fileMap = fileService.insert(param);
 				}

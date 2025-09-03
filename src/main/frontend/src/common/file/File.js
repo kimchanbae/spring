@@ -96,6 +96,7 @@ function File(){
                         <li className="w-150">파일경로</li>
                         <li className="w-100">확장자</li>
                         <li className="w-100">api</li>
+                        <li className="w-100">파일크기</li>
                         <li className="w-150">다운로드</li>
                     </ul>
                 </div>
@@ -108,6 +109,7 @@ function File(){
                             {(isHoverd && v.seq === TooltipIdx && <div className="hover-content">{v.extents}</div>)}{v.extents}
                         </li>
                         <li className="w-100">{v.api_compent}</li>
+                        <li className="w-100">{v.size}</li>
                         <li className="w-150"><button type="button" onClick={() => FileDownload(v.name)}>다운로드</button></li>
                     </ul>
                 </div>

@@ -34,20 +34,20 @@
         	 name, 
         	 comment, 
         	 reg_date,
-        	 use_yn,
         	 <if test='file_seq != null and file_seq != ""'>
-        	 file_seq
+        	 file_seq,
         	 </if>
+        	 use_yn
         	 ) 
         VALUES
         	(#{id}, 
         	 #{name}, 
         	 #{comment}, 
         	 NOW(),
-        	 'Y',
         	 <if test='file_seq != null and file_seq != ""'>
-        	 #{file_seq}
+        	 #{file_seq},
         	 </if>
+        	 'Y'
         	 )
     </insert>
     
@@ -55,10 +55,10 @@
         UPDATE member SET
         	name = #{name},
         	comment = #{comment}, 
-        	upd_date = NOW(),
         	<if test='file_seq != null and file_seq != ""'>
-        	file_seq = #{file_seq}
+        	file_seq = #{file_seq},
         	</if>
+        	upd_date = NOW()
         WHERE id = #{id}  
     </update>
     
