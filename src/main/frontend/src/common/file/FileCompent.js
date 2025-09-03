@@ -1,14 +1,10 @@
 import axios from "axios"
 import React, { forwardRef, useEffect, useRef, useState } from "react"
 import FileDownload from "../js/FileDownload";
-import { useLocation } from "react-router-dom";
 
 const FileCompent = ({onFileChange, onUploadComplete, schFileSeq, fileUploadCnt}) => {
-    const location = useLocation();
-    const userData = {...location.state};
     const [files, setFiles] = useState([]);			/* 파일정보 객체 */
     const fileInputRef = useRef(null);              /* 파일 input */
-    const [uploadComplete, setUploadComplete] = useState("N");
 
     useEffect(() => {
         fileList();

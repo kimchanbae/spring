@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
 import FileCompent from "../../common/file/FileCompent";
 
-function User(){
+function UserView(){
 	const location = useLocation();
 	const userData = {...location.state };
 	const navigate = useNavigate();
@@ -39,7 +39,7 @@ function User(){
 	
 	/*등록, 수정*/
 	const [fileUploadCnt, setFileUploadCnt] = useState(0);
-	const [saveData, setSaveData] = useState([]);
+	const [saveData, setSaveData] = useState([]);			/* 입력폼 저장정보 객체 */
 	const onSubmit = async (e) => {
 		e.preventDefault();		/* 페이지 리로드 방지 */
 		
@@ -50,11 +50,8 @@ function User(){
 			setSaveData(data);
 			
 			if(uploadfiles.length > 0){
-				// fileUpload(e);
-
 				setFileUploadCnt(fileUploadCnt+1);
 			}else{
-				// save(e);
 				save(data);
 			}
 		}else{
@@ -62,40 +59,9 @@ function User(){
 		}
 	}
 
-	/* 파일업로드 */
-	// const fileUpload = async (e) => {
-	// 	const fileData = new FormData();
-		
-		/* 단일 */
-		// fileData.append('file', files);
-
-		/* 다중 */
-		// files.forEach((file) => {
-		// uploadfiles.forEach((file) => {
-		// 	fileData.append("files", file);
-		// })
-
-		// inptus.apicompent = "user";
-		// fileData.append('params', JSON.stringify(inptus));
-
-		// await axios.post("http://localhost:9000/common/file/api/fileUpload", fileData)
-	// 	await axios.post("http://localhost:9000/common/file/api/multiFileUpload", fileData)
-	// 	.then(res => {
-	// 		save(e, res.data.fileMap);
-	// 	})
-	// 	.catch(error => {
-	// 		alert(error.response.data + "\n" + error);
-	// 		console.error("오류:", error);
-	// 	})
-	// }
-
-	const [schFileSeq, setSchFileSeq] = useState(userData.file_seq);	/* 파일시퀀스 번호 조회 객체 */
+	const [schFileSeq, setSchFileSeq] = useState(userData.file_seq);	/* 파일정보 조회 객체(시퀀스번호) */
 	/* 등록,수정 실행 */ 
-	// const save = (e, fileMap) => {
 	const save = (data, fileMap) => {	
-		// const formData = new FormData(e.target);
-		// const data = Object.fromEntries(formData.entries());
-
 		let saveMode="create";
 		if(userData.id != ""){
 			saveMode="update";
@@ -118,8 +84,6 @@ function User(){
 					setSchFileSeq((prev) => fileMap.seq);
 				}
 			}
-			
-			// list();
 		})
 		.catch(error => {
 			alert("시용자정보 등록 오류\n관리자에게 문의하세요.\n" + error);
@@ -155,16 +119,12 @@ function User(){
 
 	/* 파일업로드완료 후 콜백 */
 	const handleUploadComplete = useCallback((fileMap) => {
-		console.log("파일업로드후 데이터:" + fileMap);
-		
 		setFileUploadCnt(0);
 		save(saveData, fileMap);
 	})
 
 	/* 부모창으로 전달된 파일 정보 */
 	const handleFileChange = (files) => {
-		// console.log("부모전달 파일 정보:", files);
-
 		// setUploadFiles((prev) => [...prev, ...file]);
 		setUploadFiles(files);
 	}
@@ -212,4 +172,4 @@ function User(){
   	);
 }
 
-export default User;
+export default UserView;
