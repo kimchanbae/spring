@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from "axios";
 import Model from "/src/common/js/model";
+import ReactPaginate from "react-paginate";
 
 function User(){
 	const [data, setData] = useState([]);
@@ -15,29 +16,35 @@ function User(){
 	});
 	const {id, name} = searchParames;
 
+	const [searchKeyword] = useSearchParams();		/* 입력된 검색 키원드 객체 */
+
 	useEffect(() => {
 		/* 검색시 키원드에 입력된 정보 조회 */
 		// const keywordId = localStorage.getItem('searchId');
 		// const keywordName = localStorage.getItem('searchName');
-		const searchKeyword = JSON.parse(localStorage.getItem('search'));
+		// const searchKeyword = JSON.parse(localStorage.getItem('search'));
 
 		/* 검색조건 검색설정된 정보 있을시 */
 		// if(keywordId || keywordName){
-		if(searchKeyword){
+		// if(searchKeyword){
 			// searchParames.id = keywordId;
 			// searchParames.name = keywordName;
-			searchParames.id = searchKeyword.id;
-			searchParames.name = searchKeyword.name;
-		}
+			// searchParames.id = searchKeyword.id;
+			// searchParames.name = searchKeyword.name;
+		// }
 
-		search();
-		
+		searchParames.id = searchKeyword.get("id");
+		searchParames.name = searchKeyword.get("name");
+
+		search(searchParames);
+
 		inputRef.current.focus();	/* 검색조건 아이디 포커스 */
   	}, [])
 
 	/* 검색조건 조회 */
-	const search = () => {
-		axios.post("http://localhost:9000/api/user", searchParames)
+	const search = (schParams) => {
+		// axios.post("http://localhost:9000/api/user", searchParames)
+		axios.post("http://localhost:9000/api/user", schParams)
 		.then(res => {
 			setRowCount(res.data.length);
 			setData(res.data);
@@ -45,12 +52,20 @@ function User(){
 			/* 검색조건 설정정보 저장 */
 			// localStorage.setItem('searchId', searchParames.id);
 			// localStorage.setItem('searchName', searchParames.name);
-			localStorage.setItem('search', JSON.stringify(searchParames));
+			// localStorage.setItem('search', JSON.stringify(searchParames));
 
-			setTimeout(() => {
-				localStorage.clear();	// 로컬스토리지 클리어
-			}, 100000);
+			// setTimeout(() => {
+			// 	localStorage.clear();	// 로컬스토리지 클리어
+			// }, 100000);
 		});
+	}
+
+	const [searchStstus, setSearchStatus] = useState(false);
+	/* 검색 버튼 클릭 */
+	const searchClick = () => {
+		search(searchParames);
+
+		setSearchStatus(true);
 	}
 
 	/* 검색조건 입려폼 수정시 */	
@@ -80,9 +95,20 @@ function User(){
 
 	/*상세*/
 	const navigate = useNavigate();
+	const [keyword, setKeyword] = useState({id:"", name:""});
 	const detail = (userId, file_seq) => {
+		if(searchStstus){
+			keyword.id = searchParames.id;
+			keyword.name = searchParames.name;
+		}
+
+		if(!searchStstus){
+			if(searchKeyword.get("id") == null){keyword.id = ""}else{keyword.id = searchKeyword.get("id")};
+			if(searchKeyword.get("name") == null){keyword.name = ""}else{keyword.name = searchKeyword.get("name")};
+		}
+
 		/*상세 페이지 이동 state 파라미터 셋팅*/
-		navigate('/user/view', {state : {id:userId, file_seq:file_seq}});
+		navigate('/user/view', {state : {id:userId, file_seq:file_seq, searchKeyword:keyword}});
 	}
 
 	const [isHoverd, setIsHoverd] = useState(false);	/* 마우스 오버시,벗어났을때 객체 */
@@ -115,7 +141,7 @@ function User(){
 						</li>
 						<li>
 							<div className="sch-btn">
-								<button type="button" onClick={search}>검색</button>
+								<button type="button" onClick={searchClick}>검색</button>
 							</div>
 						</li>
 					</ul>
@@ -149,6 +175,9 @@ function User(){
 				</div>
 				)}
 			</div>
+			<div>
+				{/* <ReactPaginate pageCount={5} pageRangeDisplayed={5} marginPagesDisplayed={2}></ReactPaginate> */}
+			</div>
 			<div className="btn-grp">
 				<ul>
 					<li><button onClick={() => detail('')}>등록</button></li>
@@ -160,6 +189,7 @@ function User(){
 					<ul><li className="det-header">아이디</li><li className="det-cont">{userData.id}</li></ul>
 					<ul><li className="det-header">이름</li><li className="det-cont">{userData.name}</li></ul>
 					<ul><li className="det-header">내용</li><li className="det-cont">{userData.comment}</li></ul>
+					<ul><li className="det-header">첨부파일</li><li className="det-cont">{userData.file_name}</li></ul>
 				</div>
 			</Model>
 		</header>

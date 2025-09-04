@@ -9,6 +9,7 @@ function UserView(){
 	const navigate = useNavigate();
 	const [data, setData] = useState([]);
 	const [uploadfiles, setUploadFiles] = useState([]);			/* 파일정보 객체 */
+	const searchKeyword = new URLSearchParams({id:userData.searchKeyword.id, name:userData.searchKeyword.name})		/* 검색키워드 객체 */
 	
 	useEffect(() => {
 		/*axios.get("http://localhost:9000/api/user/view?id=" + userData.id)*/
@@ -131,7 +132,8 @@ function UserView(){
 
 	/* 목록이동 */
 	const list = () => {
-		navigate('/user');
+		// navigate('/user');
+		navigate('/user?' + searchKeyword.toString());
 	}
 	
 	return (
