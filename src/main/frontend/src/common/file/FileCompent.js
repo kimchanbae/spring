@@ -2,7 +2,8 @@ import axios from "axios"
 import React, { forwardRef, useEffect, useRef, useState } from "react"
 import FileDownload from "../js/FileDownload";
 
-const FileCompent = ({onFileChange, onUploadComplete, schFileSeq, fileUploadCnt}) => {
+// const FileCompent = ({onFileChange, onUploadComplete, schFileSeq, fileUploadCnt}) => {
+const FileCompent = ({onFileChange, onUploadComplete, schFileParams, fileUploadCnt}) => {
     const [files, setFiles] = useState([]);			/* 파일정보 객체 */
     const fileInputRef = useRef(null);              /* 파일 input */
 
@@ -10,12 +11,12 @@ const FileCompent = ({onFileChange, onUploadComplete, schFileSeq, fileUploadCnt}
         fileList();
 
         if(fileUploadCnt){
-            fileUpload("user");
+            fileUpload(schFileParams.api);
         }
-    },[schFileSeq, fileUploadCnt])
+    },[schFileParams.fileSeq, fileUploadCnt])
     
     const fileList = () => {
-        const schData = {file_seq:schFileSeq};
+        const schData = {file_seq:schFileParams.fileSeq};
 
         axios.post("http://localhost:9000/common/file/api/fileList", schData)
         .then(res => {
@@ -53,7 +54,7 @@ const FileCompent = ({onFileChange, onUploadComplete, schFileSeq, fileUploadCnt}
             fileData.append("files", file);
         })
 
-        const inptus = {"apicompent":api};
+        const inptus = {"apicompent":api, "seq":schFileParams.fileSeq};
         fileData.append('params', JSON.stringify(inptus));
 
         // await axios.post("http://localhost:9000/common/file/api/fileUpload", fileData)

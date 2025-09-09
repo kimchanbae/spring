@@ -8,9 +8,11 @@ function UserView(){
 	const userData = {...location.state };
 	const navigate = useNavigate();
 	const [data, setData] = useState([]);
-	const [uploadfiles, setUploadFiles] = useState([]);			/* 파일정보 객체 */
+	const [uploadfiles, setUploadFiles] = useState([]);			/* 업로드 파일정보 객체 */
 	const searchKeyword = new URLSearchParams({id:userData.searchKeyword.id, name:userData.searchKeyword.name})		/* 검색키워드 객체 */
 	
+	const [schFileParams, setSchFileParams] = useState({api:"user", fileSeq:userData.file_seq});	/* 파일정보 조회,저장 객체 */
+
 	useEffect(() => {
 		/*axios.get("http://localhost:9000/api/user/view?id=" + userData.id)*/
 		axios.post("http://localhost:9000/api/user/view", userData)
@@ -25,8 +27,9 @@ function UserView(){
 		id: "",
 		name: "",
 		comment: "",
+		use_yn: "",
 	});
-	const {id, name, comment} = inptus;
+	const {id, name, comment, use_yn} = inptus;
 	
 	/*입려폼 수정시*/
 	const onChange = (e) => {
@@ -37,7 +40,19 @@ function UserView(){
 	      	[e.target.name]: e.target.value
 	    });
 	}
-	
+
+	/* 체크박스 체크시 */
+	// const useYn = ["게임", "등산"];
+	// const [useYnCheckeds, setUseYnCheckeds] = useState({});
+	// const onChecked = (e) => {
+	// 	const {name, checked} = e.target
+
+	// 	setUseYnCheckeds((prev) => ({
+	// 		...prev,
+	// 		[name]: checked
+	// 	}))
+	// }
+
 	/*등록, 수정*/
 	const [fileUploadCnt, setFileUploadCnt] = useState(0);
 	const [saveData, setSaveData] = useState([]);			/* 입력폼 저장정보 객체 */
@@ -60,7 +75,6 @@ function UserView(){
 		}
 	}
 
-	const [schFileSeq, setSchFileSeq] = useState(userData.file_seq);	/* 파일정보 조회 객체(시퀀스번호) */
 	/* 등록,수정 실행 */ 
 	const save = (data, fileMap) => {	
 		let saveMode="create";
@@ -79,11 +93,13 @@ function UserView(){
 			if(res.data.message != null && res.data.message != ""){
 				alert(res.data.message);
 			}else{
-				alert("사용자 정보가 저장 되었습니다.");
-
 				if(fileMap != null && fileMap != ""){
-					setSchFileSeq((prev) => fileMap.seq);
+					schFileParams.fileSeq = fileMap.seq;		/* 저장후 파일정보 조회 시퀀스번호 */
 				}
+
+				setFileUploadCnt(0);
+
+				alert("사용자 정보가 저장 되었습니다.");
 			}
 		})
 		.catch(error => {
@@ -120,7 +136,6 @@ function UserView(){
 
 	/* 파일업로드완료 후 콜백 */
 	const handleUploadComplete = useCallback((fileMap) => {
-		setFileUploadCnt(0);
 		save(saveData, fileMap);
 	})
 
@@ -158,7 +173,19 @@ function UserView(){
 					<ul>
 						<li className="det-header">첨부파일</li>
 						<li className="det-cont">
-							<FileCompent onFileChange={handleFileChange} onUploadComplete={handleUploadComplete} schFileSeq={schFileSeq} fileUploadCnt={fileUploadCnt} />
+							{/* <FileCompent onFileChange={handleFileChange} onUploadComplete={handleUploadComplete} schFileSeq={schFileSeq} fileUploadCnt={fileUploadCnt} /> */}
+							<FileCompent onFileChange={handleFileChange} onUploadComplete={handleUploadComplete} schFileParams={schFileParams} fileUploadCnt={fileUploadCnt} />
+						</li>
+					</ul>
+					<ul>
+						<li className="det-header">사용여부</li>
+						<li className="det-cont">
+							<input type="radio" name="use_yn" value="Y" checked={inptus.use_yn === "Y"} onChange={onChange} />사용
+							<input type="radio" name="use_yn" value="N" checked={inptus.use_yn === "N"} onChange={onChange} />미사용
+							{/* {useYn.map((item) => (
+								<input type="checkbox" name={item} onChange={onChecked} checked={useYnCheckeds[item] || false} />
+							))}
+							{Object.keys(useYnCheckeds).filter((key) => useYnCheckeds[key]).join(',') || '없음'} */}
 						</li>
 					</ul>
 				</div>

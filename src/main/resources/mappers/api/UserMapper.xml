@@ -58,7 +58,8 @@
         	<if test='file_seq != null and file_seq != ""'>
         	file_seq = #{file_seq},
         	</if>
-        	upd_date = NOW()
+        	upd_date = NOW(),
+        	use_yn = #{use_yn}
         WHERE id = #{id}  
     </update>
     
