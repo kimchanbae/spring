@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -32,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
 import com.example.consumingrest.common.service.FileService;
+import com.example.consumingrest.util.DateUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -161,7 +164,7 @@ public class FileController {
 	}
 	
 	@PostMapping("/api/multiFileUpload")
-	public ResponseEntity<Map<String, Object>> fileUpload(@RequestParam("files") MultipartFile[] files, @RequestParam("params") String params) throws Exception {	
+	public ResponseEntity<Map<String, Object>> fileUpload(@RequestParam("files") MultipartFile[] files, @RequestParam("params") String params) throws Exception {
 		log.debug("============== 파일 업로드 =====================");
 		log.debug("파일 파라미터" + files.toString());
 		log.debug("parammap:" + params);
@@ -183,23 +186,42 @@ public class FileController {
 		
 		try {
 			Map<String, Object> fileMap = new HashMap<>();
+			int seq;
+			
+			if(paramMap.get("seq") == null) {
+				// 마스터 저장
+				Map param = new HashMap<>();
+				param.put("path", uploadDir);
+				param.put("api_compent", paramMap.get("apicompent"));
+				
+				fileMap = fileService.insert(param);
+				
+				seq = Integer.parseInt(fileMap.get("seq").toString());
+			}else {
+//				fileService.detailDelete(paramMap);
+				
+				seq = Integer.parseInt(paramMap.get("seq").toString());
+				fileMap.put("seq", seq);
+			}
 			
 			for(MultipartFile file : files) {
 				if(!file.isEmpty()) {
-					String fullFilePath = uploadDir + file.getOriginalFilename();
+					// 현재시간을 조회
+					String formatterTime = DateUtil.nowTime();
+					
+					String fullFilePath = uploadDir + formatterTime + "_" + file.getOriginalFilename();
 					Path path = Paths.get(fullFilePath).toAbsolutePath();
 			
 					// 파일저장
 					file.transferTo(path.toFile());
 					
 					Map param = new HashMap<>();
-					param.put("name", file.getOriginalFilename());
-					param.put("path", uploadDir);
+					param.put("seq", seq);
+					param.put("name", formatterTime + "_" + file.getOriginalFilename());
 					param.put("extents", FilenameUtils.getExtension(file.getOriginalFilename()).toLowerCase()); 
-					param.put("api_compent", paramMap.get("apicompent"));
 					param.put("size", file.getSize());
 					
-					fileMap = fileService.insert(param);
+					fileService.detailInsert(param);
 				}
 			}
 			

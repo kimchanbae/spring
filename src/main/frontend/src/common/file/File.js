@@ -92,6 +92,8 @@ function File(){
             <div className="div-item">
                 <div className="header">
                     <ul>
+                        <li className="w-100">시퀀스번호</li>
+                        <li className="w-60">순번</li>
                         <li className="w-300">파일명</li>
                         <li className="w-150">파일경로</li>
                         <li className="w-100">확장자</li>
@@ -103,7 +105,9 @@ function File(){
                 {data.map((v) => 
                 <div className="row">
                     <ul>
-                        <li className="w-300">{v.name}</li>
+                        <li className="w-100">{v.seq}</li>
+                        <li className="w-60">{v.no}</li>
+                        <li className="w-300 txt-left">{v.name}</li>
                         <li className="w-150">{v.path}</li>
                         <li className="w-100" onMouseEnter={() => handleMouseEnter(v.seq)} onMouseLeave={handleMouseLeave}>
                             {(isHoverd && v.seq === TooltipIdx && <div className="hover-content">{v.extents}</div>)}{v.extents}

@@ -3,16 +3,19 @@
 <mapper namespace="com.example.consumingrest.common.mapper.FileMapper">
 
     <select id="list" resultType="hashmap">
-        SELECT * 
-          FROM file
-         ORDER BY reg_date DESC
+        SELECT A.path,
+        	   A.api_compent,
+        	   B.* 
+          FROM file A, file_detail B
+         WHERE A.seq = B.seq 
+         ORDER BY A.seq DESC, B.no ASC
     </select>
     
     <select id="apiFileList" resultType="hashmap">
         SELECT * 
-          FROM file
-         WHERE seq = #{file_seq}
-         ORDER BY reg_date DESC
+          FROM file_detail
+         WHERE seq = #{seq}
+         ORDER BY no ASC
     </select>
     
     <select id="one" parameterType="hashmap" resultType="map">
@@ -26,28 +29,44 @@
         SELECT CURRVAL('file_seq')
         </selectKey>
         INSERT INTO file
-        	(name, 
-        	 path, 
-        	 extents,
+        	(path, 
         	 <if test='api_compent != null and api_compent != ""'>
         	 api_compent,
         	 </if>
-        	 size,
         	 reg_date) 
         VALUES
-        	(#{name}, 
-        	 #{path},
-        	 #{extents},
+        	(#{path},
         	 <if test='api_compent != null and api_compent != ""'>
         	 #{api_compent},
         	 </if>
-        	 #{size}, 
         	 NOW())
     </insert>
     
     <update id="delete" parameterType="String">
-        DELETE FROM file
+        DELETE FROM file_detail
         WHERE name = #{name}  
+    </update>
+    
+    <insert id="detailInsert" parameterType="hashmap">
+        INSERT INTO file_detail
+        	(seq,
+        	 no,
+        	 name,
+        	 extents,
+        	 size,
+        	 reg_date)
+        VALUES
+        	(#{seq},
+        	 (SELECT COALESCE(MAX(no)+1, 1) FROM file_detail WHERE seq = #{seq}),
+        	 #{name},
+        	 #{extents},
+        	 #{size},
+        	 NOW())	  
+    </insert>
+    
+    <update id="detailDelete" parameterType="hashmap">
+        DELETE FROM file_detail
+        WHERE seq = #{seq}  
     </update>
     
 </mapper>

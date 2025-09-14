@@ -38,4 +38,12 @@ public class FileService {
 		fileMapper.delete(name);
 	}
 	
+	public void detailDelete(Map paramMap) {
+		fileMapper.detailDelete(paramMap);
+	}
+	
+	public void detailInsert(Map paramMap) {	
+		 fileMapper.detailInsert(paramMap);
+	}
+	
 }

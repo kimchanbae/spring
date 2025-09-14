@@ -6,6 +6,7 @@ import FileDownload from "../js/FileDownload";
 const FileCompent = ({onFileChange, onUploadComplete, schFileParams, fileUploadCnt}) => {
     const [files, setFiles] = useState([]);			/* 파일정보 객체 */
     const fileInputRef = useRef(null);              /* 파일 input */
+    // const [existingFiles, setExistingFiles] = useState([]);     /* 이전파일정보 객체 */
 
     useEffect(() => {
         fileList();
@@ -13,14 +14,22 @@ const FileCompent = ({onFileChange, onUploadComplete, schFileParams, fileUploadC
         if(fileUploadCnt){
             fileUpload(schFileParams.api);
         }
-    },[schFileParams.fileSeq, fileUploadCnt])
+    },[fileUploadCnt]) 
     
     const fileList = () => {
-        const schData = {file_seq:schFileParams.fileSeq};
+        const schData = {seq:schFileParams.fileSeq};
 
         axios.post("http://localhost:9000/common/file/api/fileList", schData)
         .then(res => {
             setFiles(res.data);
+            
+            // const oldFiles = res.data.map((file) => ({
+            //     name:file.name,
+            //     size:file.size,
+            //     extents:file.extents,
+            //     file
+            // }))
+            // setExistingFiles((prev) => [...prev, ...oldFiles]);
         })
     }
 
@@ -31,11 +40,25 @@ const FileCompent = ({onFileChange, onUploadComplete, schFileParams, fileUploadC
 		// setFiles(e.target.files[0]);
 		/* 멀티 */
         setFiles((prev) => [...prev, ...selectedFiles]);
+        
+        // const newFiles = Array.from(e.target.files).map((file) => ({
+        //     id:null,
+        //     name:file.name,
+        //     file,
+        //     isNew:true
+        // }))
+        // setFiles((prev) => [...prev, ...newFiles])
 
-        onFileChange(selectedFiles);        /* 부모전달파일정보 */
+        onFileChange(selectedFiles);
 
         e.target.value = "";    /* input 초기화 */
 	}
+
+    // useEffect(() => {
+    //     if(files){
+    //         onFileChange(files);     /* 파일변경시 부모창 파일정보 전달 */
+    //     }
+    // },[files])
 
     /* 파일추가 클릭 */	
 	const fileAdd = () => {
@@ -45,21 +68,25 @@ const FileCompent = ({onFileChange, onUploadComplete, schFileParams, fileUploadC
     /* 파일업로드 */
     const fileUpload = async (api) => {
         const fileData = new FormData();
-        
         /* 단일 */
         // fileData.append('file', files);
-
         /* 다중 */
         files.forEach((file) => {
             fileData.append("files", file);
         })
 
+        /* 이전파일정보 */
+        // existingFiles.forEach((file) => {
+        //     fileData.append("existingFiles", file);
+        // })
+        
         const inptus = {"apicompent":api, "seq":schFileParams.fileSeq};
         fileData.append('params', JSON.stringify(inptus));
 
         // await axios.post("http://localhost:9000/common/file/api/fileUpload", fileData)
         await axios.post("http://localhost:9000/common/file/api/multiFileUpload", fileData)
         .then(res => {
+            onFileChange([]);
             onUploadComplete(res.data.fileMap);
         })
         .catch(error => {
@@ -79,13 +106,12 @@ const FileCompent = ({onFileChange, onUploadComplete, schFileParams, fileUploadC
 
                 setFiles((prev) => prev.filter((__, index) => index !== toIndex));      /* 삭제파일 filter로 제외처리 */
                 
-                /* 삭제 후 input value 초기화 */
                 if(fileInputRef.current){
-                    fileInputRef.current.value = "";
+                    fileInputRef.current.value = "";    /* 삭제 후 input value 초기화 */
                 }
 
-                const selectedFiles = files.filter((__, index) => index !== toIndex);     /* 삭제된 파일 filter로 제외 후 부모전달 파일정보 */
-                onFileChange(selectedFiles);
+                // const selectedFiles = files.filter((__, index) => index !== toIndex);     /* 삭제된 파일 filter로 제외 후 부모전달 파일정보 */
+                // onFileChange(selectedFiles);
             }
         } catch (error) {
             alert("삭제중 오류발생:" + error.response.data);

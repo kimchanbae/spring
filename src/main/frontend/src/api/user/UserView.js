@@ -20,7 +20,7 @@ function UserView(){
 			setData([res.data]);	/* 사용자정보 조회 객체 */
 			setInptus(res.data);	/* 입력폼 사용자정보 객체 */
 		})
-  	},[])
+  	},[uploadfiles])
 
 	/* 입력폼 사용자정보 셋팅 객체 생성 */
 	const [inptus, setInptus] = useState({
@@ -64,7 +64,7 @@ function UserView(){
 			const data = Object.fromEntries(formData.entries());
 
 			setSaveData(data);
-			
+
 			if(uploadfiles.length > 0){
 				setFileUploadCnt(fileUploadCnt+1);
 			}else{
@@ -93,7 +93,7 @@ function UserView(){
 			if(res.data.message != null && res.data.message != ""){
 				alert(res.data.message);
 			}else{
-				if(fileMap != null && fileMap != ""){
+ 				if(fileMap != null && fileMap != ""){
 					schFileParams.fileSeq = fileMap.seq;		/* 저장후 파일정보 조회 시퀀스번호 */
 				}
 
@@ -141,6 +141,8 @@ function UserView(){
 
 	/* 부모창으로 전달된 파일 정보 */
 	const handleFileChange = (files) => {
+		// console.log("업로드 파일 정보:" + JSON.stringify(files));
+
 		// setUploadFiles((prev) => [...prev, ...file]);
 		setUploadFiles(files);
 	}

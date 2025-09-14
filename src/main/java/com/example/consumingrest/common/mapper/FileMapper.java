@@ -18,4 +18,8 @@ public interface FileMapper {
 	
 	public void delete(String name);
 	
+	public void detailDelete(Map paramMap);
+	
+	public void detailInsert(Map paramMap);
+	
 }
