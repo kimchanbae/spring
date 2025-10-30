@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from "axios";
 import Model from "/src/common/js/model";
-import ReactPaginate from "react-paginate";
+// import ReactPaginate from "react-paginate";
 
 function User(){
 	const [data, setData] = useState([]);
@@ -124,34 +124,51 @@ function User(){
 	}
 
 	return (
-		<header className="App-header">
-			<div className="title"><ul><li>사용자 정보</li><li className="grd-count">총건수:{rowCount}건</li></ul></div>
-			<form name="schForm" className="sch-form">
-				<div className="sch-div">
-					<ul>
-						<li>
-							<div className="sch-left">
-								<ul>
-									<li>아이디<input ref={inputRef} type="text" id="id" value={searchParames.id} onChange={onChange} /></li>
-									{/* <li><input ref={inputRef} type="text" id="id" value={id} onChange={(e) => setId(e.target.value)} /></li> */}
-									<li>이름<input type="text" id="name" value={searchParames.name} onChange={onChange} /></li>
-									{/* <li><input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} /></li> */}
-								</ul>
-							</div>
-						</li>
-						<li>
-							<div className="sch-btn">
-								<button type="button" onClick={searchClick}>검색</button>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</form>
-			<div className="grid grid-cols-3 gap-4">
-				{data.map((v, idx) =>  
-					<><div className="bg-blue-200 p-4"><p className="bg-blue-100 p-6">{idx}</p></div>
-					<div className="bg-blue-200 p-4"><p className="bg-blue-100 p-6 hover:bg-blue200" onClick={() => detail(v.id)}>{v}</p></div></>
-				)}
+		<React.Fragment>
+			<div className="grid grid-cols-2 gap-4">
+				<div className="mt-10 justify-self-start">사용자 정보</div>
+				<div className="mt-10 justify-self-end">총건수:{rowCount}건</div>
+			</div>
+			<div className="flex">
+				<form name="schForm">
+					<div className="w-50 border border-solid border-gray-500">아이디</div>
+					<div className="ml-4"><input className="w-150 bg-white-100 border border-solid border-gray-500" ref={inputRef} type="text" id="id" value={searchParames.id} onChange={onChange} /></div>
+					{/* <li><input ref={inputRef} type="text" id="id" value={id} onChange={(e) => setId(e.target.value)} /></li> */}
+					<div className="w-50 ml-4 border border-solid border-gray-500">이름</div>
+					<div className="ml-4"><input className="w-150 bg-white-100 border border-solid border-gray-500" type="text" id="name" value={searchParames.name} onChange={onChange} /></div>
+					{/* <li><input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} /></li> */}
+					<div><button className="bg-blue-400" type="button" onClick={searchClick}>검색</button></div>
+				</form>
+			</div>
+			<div className="overflow-x-auto bg-white shadow-md overflow-y-auto max-h-screen">
+				<table className="min-w-full divide-y divide-gray-200 bg-sky-50">
+					<thead className="bg-gray-200">
+						<tr>
+							<th className="px-4 py-2 font-semibold">순번</th>
+							<th className="px-4 py-2 font-semibold">아이디</th>
+							<th className="px-4 py-2 font-semibold">이름</th>
+							<th className="px-4 py-2 font-semibold">내용</th>
+							<th className="px-4 py-2 font-semibold">상세</th>
+							<th className="px-4 py-2 font-semibold">팝업</th>
+							<th className="px-4 py-2 font-semibold">등록일시</th>
+						</tr>
+					</thead>
+					<tbody>
+					{data.map((v, idx) =>
+						<tr className="">
+							<td className="px-4 py-2 border-r-1 border-b border-solid border-gray-400">{idx}</td>
+							<td className="px-4 py-2 hover:bg-blue-200" onClick={() => detail(v.id, v.file_seq)}>{v.id}</td>
+							<td className="px-4 py-2 hover:bg-blue-200">{v.name}</td>
+							<td className="px-4 py-2 text-left" onMouseEnter={() => handleMouseEnter(v.seq)} onMouseLeave={handleMouseLeave}>
+								{(isHoverd && v.seq === TooltipIdx && <div className="hover-content">{v.comment}</div>)}{v.comment}
+							</td>
+							<td className="px-4 py-2"><button className="bg-blue-400" onClick={() => detail(v.id, v.file_seq)}>상세(view)</button></td>
+							<td className="px-4 py-2"><button className="bg-red-400" onClick={() => model(v.id)}>상세(팝업)</button></td>
+							<td className="px-4 py-2">{v.reg_date}</td>
+						</tr>
+					)}
+					</tbody>
+				</table>
 			</div>
 			{/* <div className="div-item">
 				<div className="header">
@@ -186,7 +203,7 @@ function User(){
 			</div>
 			<div className="btn-grp">
 				<ul>
-					<li><button onClick={() => detail('')}>등록</button></li>
+					<li><button className="bg-blue-600 mt-5" onClick={() => detail('')}>등록</button></li>
 				</ul>
 			</div>
 			<Model isOpen={open} onClose={() => setOpen(false)}>
@@ -198,8 +215,8 @@ function User(){
 					<ul><li className="det-header">첨부파일</li><li className="det-cont">{userData.file_name}</li></ul>
 				</div>
 			</Model>
-		</header>
-  	);
+  		</React.Fragment>
+	);
 }
 
 export default User;

@@ -147,10 +147,15 @@ function User(){
 					</ul>
 				</div>
 			</form>
-			<div className="grid grid-cols-3 gap-4">
+			<div className="container mx-auto grid grid-cols-7 sm:grid-cols-7 md:grid-cols-10 gap-4">
 				{data.map((v, idx) =>  
-					<><div className="bg-blue-200 p-4"><p className="bg-blue-100 p-6">{idx}</p></div>
-					<div className="bg-blue-200 p-4"><p className="bg-blue-100 p-6 hover:bg-blue200" onClick={() => detail(v.id)}>{v}</p></div></>
+					<div className="w-full min-w-0">
+						<p className="mt-1">1</p>
+						<p>2</p>
+						{/* <p className="mt-100">{idx}</p>
+						<p className="bg-blue-100 p-6 hover:bg-blue-200" onClick={() => detail(v.id, v.file_seq)}>{v.id}</p>
+						<p className="bg-blue-100 p-6 hover:bg-blue-200">{v.name}</p> */}
+					</div>
 				)}
 			</div>
 			{/* <div className="div-item">

@@ -1,11 +1,13 @@
 import React from 'react';
 import '/src/App.css'
 import './common/css/Custorom.css';
+// import './index.css';
 import { Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import Hello from './Hello';
 import Sample from './Sample';
-import User from './api/user/User';
+// import User from './api/user/User';
+import User from './components/User';
 import UserView from './api/user/UserView';
 import Video from './api/video/Video';
 import File from './common/file/File';
@@ -22,9 +24,13 @@ function App() {
 						<Link to="/sample" className='nav-link'>샘플</Link>
 						<Link to="/user" className='nav-link'>사용자정보</Link>
 						<Link to="/video" className='nav-link'>영화정보</Link>
-						<Link to="/file" className='nav-link'>파일정보</Link>	
+						<Link to="/file" className='nav-link'>파일정보</Link>
 						</li>
 					</ul>
+				</div>
+				<div className='p8 bg-gray-100 min-h-screen'>
+					<h1 className='text-2xl font-bold text-blue-600'>tailwindcss 적용 테스트</h1>
+					<button className='mt-4 px-4 py-2 bg-blue-500 text-white round hover:bg-blue-600'>클릭</button>
 				</div>
 			</nav>
 			
